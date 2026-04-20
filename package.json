@@ -30,6 +30,8 @@
         "start": "tsx src/index.ts",
         "dev": "tsx watch src/index.ts",
         "build": "tsc",
+        "test": "vitest run src/tests",
+        "test:watch": "vitest src/tests",
         "nova-entidade": "tsx cli/novaEntidade.ts",
         "excluir-entidade": "tsx cli/excluirEntidade.ts",
         "prisma:build": "tsx cli/compactarModelos.ts"
@@ -41,6 +43,7 @@
         "@vercel/node": "^4.0.0",
         "dotenv": "^17.4.2",
         "prisma": "^7.7.0",
-        "ts-node": "^10.9.2"
+        "ts-node": "^10.9.2",
+        "vitest": "^4.1.4"
     }
 }
