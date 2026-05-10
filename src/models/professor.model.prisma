@@ -2,9 +2,7 @@
 model Professor {
     id        String   @id @default(uuid())
     matricula String
-    turmas Turmas[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
-    

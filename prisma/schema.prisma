@@ -7,16 +7,114 @@ datasource db {
 }
 
 
-model Planta {
+model Aluno {
     id        String   @id @default(uuid())
+    curso String
+    matricula String @unique
+    turma String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
     
-model User {
+model Canteiro {
     id        String   @id @default(uuid())
+    userId    String
+    plantId   String
+    nome      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    user             User             @relation(fields: [userId], references: [id])
+    plantaForrageira PlantaForrageira @relation(fields: [plantId], references: [id])
+    listaFormularios ListaFormularios[]
+}
+
+
+enum TipoFormulario {
+    SEMANAL
+    DIARIO
+}
+
+model Formulario {
+    id          String         @id @default(uuid())
+    listaId     String
+    userId      String
+    tipo        TipoFormulario
+    startedAt   DateTime
+    endedAt     DateTime?
+    observacoes String?
+    synced      Boolean        @default(false)
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+
+    listaFormularios ListaFormularios @relation(fields: [listaId], references: [id])
+    user             User             @relation(fields: [userId], references: [id])
+}
+
+
+model ListaFormularios {
+    id          String   @id @default(uuid())
+    canteiroId  String
+    plantId     String
+    createdById String
+    nome        String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    canteiro         Canteiro         @relation(fields: [canteiroId], references: [id])
+    plantaForrageira PlantaForrageira @relation(fields: [plantId], references: [id])
+    createdBy        User             @relation("ListaCriador", fields: [createdById], references: [id])
+    formularios      Formulario[]
+}
+
+
+enum CategoriaPlanta {
+    GRAMINEA
+    LEGUMINOSA
+    CACTACEA
+    OUTRO
+}
+
+enum SemesterFocus {
+    PRIMEIRO
+    SEGUNDO
+    AMBOS
+}
+
+model PlantaForrageira {
+    id            String          @id @default(uuid())
+    nome          String
+    categoria     CategoriaPlanta
+    descricao     String?
+    semesterFocus SemesterFocus
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+
+    canteiros        Canteiro[]
+    listaFormularios ListaFormularios[]
+}
+
+
+model Professor {
+    id        String   @id @default(uuid())
+    matricula String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+
+model User {
+    id           String   @id @default(uuid())
+    nome         String
+    email        String   @unique
+    token        String   @unique
+    universidade String
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    canteiros               Canteiro[]
+    listaFormulariasCriadas ListaFormularios[] @relation("ListaCriador")
+    formularios             Formulario[]
 }
 

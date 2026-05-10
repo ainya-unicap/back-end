@@ -1,0 +1,27 @@
+
+enum CategoriaPlanta {
+    GRAMINEA
+    LEGUMINOSA
+    CACTACEA
+    OUTRO
+}
+
+enum SemesterFocus {
+    PRIMEIRO
+    SEGUNDO
+    AMBOS
+}
+
+model PlantaForrageira {
+    id            String          @id @default(uuid())
+    nome          String
+    categoria     CategoriaPlanta
+    descricao     String?
+    semesterFocus SemesterFocus
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+
+    canteiros        Canteiro[]
+    listaFormularios ListaFormularios[]
+}
+

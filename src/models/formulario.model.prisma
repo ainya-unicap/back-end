@@ -1,0 +1,22 @@
+
+enum TipoFormulario {
+    SEMANAL
+    DIARIO
+}
+
+model Formulario {
+    id          String         @id @default(uuid())
+    listaId     String
+    userId      String
+    tipo        TipoFormulario
+    startedAt   DateTime
+    endedAt     DateTime?
+    observacoes String?
+    synced      Boolean        @default(false)
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+
+    listaFormularios ListaFormularios @relation(fields: [listaId], references: [id])
+    user             User             @relation(fields: [userId], references: [id])
+}
+
