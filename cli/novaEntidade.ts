@@ -24,15 +24,15 @@ async function novaEntidade() {
     const baseName = nomeLimpo.toLowerCase();
 
     const paths = {
-        routes: path.join(__dirname, '../src/routes', `${baseName}.routes.ts`),
-        controller: path.join(__dirname, '../src/controllers', `${baseName}.controller.ts`),
-        service: path.join(__dirname, '../src/services', `${baseName}.service.ts`),
-        models: path.join(__dirname, '../src/models', `${baseName}.model.prisma`),
+        routes: path.join(__dirname, '../api/routes', `${baseName}.routes.ts`),
+        controller: path.join(__dirname, '../api/controllers', `${baseName}.controller.ts`),
+        service: path.join(__dirname, '../api/services', `${baseName}.service.ts`),
+        models: path.join(__dirname, '../api/models', `${baseName}.model.prisma`),
     };
 
     fs.writeFileSync(paths.routes, `
 import { Router } from "express";
-import { ${nomeLimpo}Controller } from "../controllers/${baseName}.controller";
+import { ${nomeLimpo}Controller } from "../controllers/${baseName}.controller.js";
             
 const ${baseName}Router = Router();
             
@@ -42,8 +42,8 @@ export default ${baseName}Router;
     `);
     fs.writeFileSync(paths.controller, `
 import { Request, Response } from "express";
-import { HttpError } from "../core/httpError";
-import { ${nomeLimpo}Service } from "../services/${baseName}.service";
+import { HttpError } from "../core/httpError.js";
+import { ${nomeLimpo}Service } from "../services/${baseName}.service.js";
         
 export class ${nomeLimpo}Controller {
     static async create(req: Request, res: Response) {
@@ -58,8 +58,8 @@ export class ${nomeLimpo}Controller {
 }
     `);
     fs.writeFileSync(paths.service, `
-import { prisma } from "../../lib/prisma";
-import { HttpError } from "../core/httpError";
+import { prisma } from "../../lib/prisma.js";
+import { HttpError } from "../core/httpError.js";
 
 export class ${nomeLimpo}Service {
     static async create(body: any) {

@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 async function compactarModelos() {
     // junta modelos no schema.prisma
-    const modelsDir = path.join(__dirname, '../src/models');
+    const modelsDir = path.join(__dirname, '../api/models');
     const modelFiles = fs.readdirSync(modelsDir).filter(file => file.endsWith('.model.prisma'));
 
     let combinedModels = `generator client {

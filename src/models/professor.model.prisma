@@ -1,8 +1,0 @@
-
-model Professor {
-    id        String   @id @default(uuid())
-    matricula String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-

@@ -1,0 +1,12 @@
+
+model AlunoTurma {
+    id        String   @id @default(uuid())
+    user_id   String
+    user      User             @relation(fields: [user_id], references: [id])
+    turma_id  String
+    turma     Turma    @relation(fields: [turma_id], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+    

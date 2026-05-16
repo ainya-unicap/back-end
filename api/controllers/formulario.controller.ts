@@ -1,0 +1,17 @@
+
+import { Request, Response } from "express";
+import { HttpError } from "../core/httpError.js";
+import { FormularioService } from "../services/formulario.service.js";
+        
+export class FormularioController {
+    static async create(req: Request, res: Response) {
+        try {
+            await FormularioService.create(req.body);
+            return res.status(201).json({ message: "created successfully" });
+        } catch (err: HttpError | any) {
+            console.error("Error:", err);
+            return res.status(err.status || 500).json({ error: err.message });
+        }
+    }
+}
+    

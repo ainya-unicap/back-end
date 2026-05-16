@@ -7,114 +7,221 @@ datasource db {
 }
 
 
-model Aluno {
+model AcademicPeriod {
     id        String   @id @default(uuid())
-    curso String
-    matricula String @unique
-    turma String
+    name String
+    semester String //Emun PRIMEIRO SEGUNDO
+    start_date DateTime
+    end_date DateTime
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    turmas    Turma[]
+}
+
+    
+model AlunoTurma {
+    id        String   @id @default(uuid())
+    user_id   String
+    user      User             @relation(fields: [user_id], references: [id])
+    turma_id  String
+    turma     Turma    @relation(fields: [turma_id], references: [id])
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
     
 model Canteiro {
+    id        String           @id @default(uuid())
+    user_id   String
+    user      User             @relation(fields: [user_id], references: [id])
+    plant_id  String
+    plant     PlantaForrageira @relation(fields: [plant_id], references: [id])
+    name     String
+    createdAt DateTime         @default(now())
+    updatedAt DateTime         @updatedAt
+
+    listaDeFormularios ListaDeFormularios[]
+    relatorios         Relatorio[]
+}
+
+    
+model Checklist {
+    id          String        @id @default(uuid())
+    form_id     String
+    form        Formulario    @relation(fields: [form_id], references: [id])
+    template_id String
+    template    PlantTemplate @relation(fields: [template_id], references:[id])
+    checked     Boolean       @default(false)
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+}
+
+    
+model Formulario {
+    id           String             @id @default(uuid())
+    list_id      String
+    list         ListaDeFormularios @relation(fields: [list_id], references: [id])
+    user_id      String
+    user         User               @relation(fields: [user_id], references: [id])
+    type        String             //Enum SEMANAL DIARIO
+    started_at  DateTime
+    ended_at    DateTime
+    observations String
+    synced      Boolean @default(false)
+    createdAt    DateTime           @default(now())
+    updatedAt    DateTime           @updatedAt
+
+    checklists   Checklist[]
+    measurements Measurement[]
+    photos       Photo[]
+}
+
+    
+model Institution {
     id        String   @id @default(uuid())
-    userId    String
-    plantId   String
-    nome      String
+    name      String
+    users     User[]
+    turmas    Turma[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-
-    user             User             @relation(fields: [userId], references: [id])
-    plantaForrageira PlantaForrageira @relation(fields: [plantId], references: [id])
-    listaFormularios ListaFormularios[]
 }
 
-
-enum TipoFormulario {
-    SEMANAL
-    DIARIO
-}
-
-model Formulario {
-    id          String         @id @default(uuid())
-    listaId     String
-    userId      String
-    tipo        TipoFormulario
-    startedAt   DateTime
-    endedAt     DateTime?
-    observacoes String?
-    synced      Boolean        @default(false)
-    createdAt   DateTime       @default(now())
-    updatedAt   DateTime       @updatedAt
-
-    listaFormularios ListaFormularios @relation(fields: [listaId], references: [id])
-    user             User             @relation(fields: [userId], references: [id])
-}
-
-
-model ListaFormularios {
+    
+model ListaDeFormularios {
     id          String   @id @default(uuid())
-    canteiroId  String
-    plantId     String
-    createdById String
-    nome        String
+    canteiro_id String 
+    canteiro    Canteiro @relation(fields: [canteiro_id], references: [id])
+    plant_id    String
+    plant       PlantaForrageira @relation(fields: [plant_id], references: [id])
+    created_by  String
+    user        User             @relation(fields: [created_by], references: [id])
+    name        String?
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    canteiro         Canteiro         @relation(fields: [canteiroId], references: [id])
-    plantaForrageira PlantaForrageira @relation(fields: [plantId], references: [id])
-    createdBy        User             @relation("ListaCriador", fields: [createdById], references: [id])
-    formularios      Formulario[]
+    formularios Formulario[]
+    relatorios  Relatorio[]
 }
 
-
-enum CategoriaPlanta {
-    GRAMINEA
-    LEGUMINOSA
-    CACTACEA
-    OUTRO
+    
+model Measurement {
+    id          String   @id @default(uuid())
+    form_id     String
+    form        Formulario    @relation(fields: [form_id], references: [id])
+    template_id String
+    template    PlantTemplate @relation(fields: [template_id], references:[id])
+    value       Float
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
 
-enum SemesterFocus {
-    PRIMEIRO
-    SEGUNDO
-    AMBOS
-}
-
-model PlantaForrageira {
-    id            String          @id @default(uuid())
-    nome          String
-    categoria     CategoriaPlanta
-    descricao     String?
-    semesterFocus SemesterFocus
-    createdAt     DateTime        @default(now())
-    updatedAt     DateTime        @updatedAt
-
-    canteiros        Canteiro[]
-    listaFormularios ListaFormularios[]
-}
-
-
-model Professor {
+    
+model Photo {
     id        String   @id @default(uuid())
-    matricula String
-    createdAt DateTime @default(now())
+    form_id   String
+    form      Formulario    @relation(fields: [form_id], references: [id])
+    url       String
+    takenAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
+    
+model PlantaForrageira {
+    id             String   @id @default(uuid())
+    name          String
+    category      String //Enum GRAMINEA, LEGUMINOSA, CACTACEA, OUTRO
+    description    String
+    semester_focus String //Enum PRIMEIRO, SEGUNDO, AMBOS
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
 
+    canteiros          Canteiro[]
+    listaDeFormularios ListaDeFormularios[]
+    plantTemplates     PlantTemplate[]
+}
+
+    
+model PlantTemplate {
+    id                String           @id @default(uuid())
+    plant_id          String
+    planta_forrageira PlantaForrageira @relation(fields: [plant_id], references: [id])
+    field_name        String
+    unit              String
+    createdA          DateTime         @default(now())
+    updatedA          DateTime         @updatedAt
+
+    checklists   Checklist[]
+    measurements Measurement[]
+}
+
+    model RefreshToken {
+  id          String   @id @default(uuid())
+  token       String   @unique
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  expiresAt   DateTime
+  revoked     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}
+model Relatorio {
+    id        String   @id @default(uuid())
+    user_id   String
+    user      User             @relation(fields: [user_id], references: [id])
+    canteiro_id String 
+    canteiro    Canteiro @relation(fields: [canteiro_id], references: [id])
+    list_id      String
+    list         ListaDeFormularios @relation(fields: [list_id], references: [id])
+    status String //Enum RASCUNHO, SUBMETIDO, CORRIGIDO
+    introduction String
+    objective String
+    development String
+    final_thoughts String
+    references String
+    grade Float
+    feedback String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    submited_at DateTime
+}
+
+    
+model Turma {
+    id        String   @id @default(uuid())
+    institution_id String?
+    institution Institution? @relation(fields: [institution_id], references: [id])
+    period_id String
+    period AcademicPeriod @relation(fields: [period_id], references:[id])
+    name String
+    created_by String
+    user      User             @relation(fields: [created_by], references: [id])
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    alunoTurmas AlunoTurma[]
+}
+
+    
 model User {
-    id           String   @id @default(uuid())
-    nome         String
-    email        String   @unique
-    token        String   @unique
-    universidade String
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
+    id             String   @id @default(uuid())
+    name           String
+    email          String   @unique
+    password       String
+    role           String   @default("aluno") //enum "aluno", "professor", "admin"
+    institution_id String?
+    institution Institution? @relation(fields: [institution_id], references: [id])
+    refreshTokens      RefreshToken[]
+    createdAt          DateTime @default(now())
+    updatedAt          DateTime @updatedAt
 
-    canteiros               Canteiro[]
-    listaFormulariasCriadas ListaFormularios[] @relation("ListaCriador")
-    formularios             Formulario[]
+    alunoTurmas        AlunoTurma[]
+    canteiros          Canteiro[]
+    formularios        Formulario[]
+    listasFormularios  ListaDeFormularios[]
+    relatorios         Relatorio[]
+    turmasCriadas      Turma[]
 }
 
