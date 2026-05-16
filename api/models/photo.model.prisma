@@ -1,0 +1,11 @@
+
+model Photo {
+    id        String   @id @default(uuid())
+    form_id   String
+    form      Formulario    @relation(fields: [form_id], references: [id])
+    url       String
+    takenAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+    

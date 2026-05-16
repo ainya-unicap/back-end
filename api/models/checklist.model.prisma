@@ -1,0 +1,13 @@
+
+model Checklist {
+    id          String        @id @default(uuid())
+    form_id     String
+    form        Formulario    @relation(fields: [form_id], references: [id])
+    template_id String
+    template    PlantTemplate @relation(fields: [template_id], references:[id])
+    checked     Boolean       @default(false)
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+}
+
+    

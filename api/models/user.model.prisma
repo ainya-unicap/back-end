@@ -1,0 +1,21 @@
+
+model User {
+    id             String   @id @default(uuid())
+    name           String
+    email          String   @unique
+    password       String
+    role           String   @default("aluno") //enum "aluno", "professor", "admin"
+    institution_id String?
+    institution Institution? @relation(fields: [institution_id], references: [id])
+    refreshTokens      RefreshToken[]
+    createdAt          DateTime @default(now())
+    updatedAt          DateTime @updatedAt
+
+    alunoTurmas        AlunoTurma[]
+    canteiros          Canteiro[]
+    formularios        Formulario[]
+    listasFormularios  ListaDeFormularios[]
+    relatorios         Relatorio[]
+    turmasCriadas      Turma[]
+}
+

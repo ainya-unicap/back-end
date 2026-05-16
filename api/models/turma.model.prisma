@@ -1,0 +1,17 @@
+
+model Turma {
+    id        String   @id @default(uuid())
+    institution_id String?
+    institution Institution? @relation(fields: [institution_id], references: [id])
+    period_id String
+    period AcademicPeriod @relation(fields: [period_id], references:[id])
+    name String
+    created_by String
+    user      User             @relation(fields: [created_by], references: [id])
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    alunoTurmas AlunoTurma[]
+}
+
+    

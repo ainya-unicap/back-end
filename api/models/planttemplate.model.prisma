@@ -1,0 +1,15 @@
+
+model PlantTemplate {
+    id                String           @id @default(uuid())
+    plant_id          String
+    planta_forrageira PlantaForrageira @relation(fields: [plant_id], references: [id])
+    field_name        String
+    unit              String
+    createdA          DateTime         @default(now())
+    updatedA          DateTime         @updatedAt
+
+    checklists   Checklist[]
+    measurements Measurement[]
+}
+
+    

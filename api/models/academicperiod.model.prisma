@@ -1,0 +1,14 @@
+
+model AcademicPeriod {
+    id        String   @id @default(uuid())
+    name String
+    semester String //Emun PRIMEIRO SEGUNDO
+    start_date DateTime
+    end_date DateTime
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    turmas    Turma[]
+}
+
+    

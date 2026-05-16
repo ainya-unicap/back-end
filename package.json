@@ -1,33 +1,56 @@
 {
-  "name": "back-end",
-  "version": "0.1.0",
-  "description": "Backend para a comunicação de serviços da DonkeyCode",
-  "keywords": [
-    "DonkeyCode",
-    "animais",
-    "agro"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "DonkeyCode"
-  },
-  "license": "ISC",
-  "author": "DonkeyCode",
-  "type": "module",
-  "main": "server.ts",
-  "scripts": {
-    "start": "tsx src/server.ts",
-    "dev": "tsx watch src/server.ts",
-    "build": "tsc"
-  },
-  "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1",
-    "multer": "^2.1.0",
-    "pg": "^8.19.0",
-    "socket.io": "^4.8.3",
-    "tsx": "^4.21.0"
-  }
+    "name": "api",
+    "description": "api para testar funcionalidades do prisma",
+    "author": "DonkeyCode",
+    "version": "0.1.0",
+    "license": "MIT",
+    "keywords": [
+        "API",
+        "unicap",
+        "serviço"
+    ],
+    "main": "src/server.ts",
+    "type": "module",
+    "dependencies": {
+        "@prisma/adapter-pg": "^7.7.0",
+        "@prisma/client": "^7.7.0",
+        "@types/express": "^4.17.21",
+        "argon2": "^0.44.0",
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.6",
+        "crypto": "^1.0.1",
+        "express": "^4.19.2",
+        "inquirer": "^13.3.2",
+        "jsonwebtoken": "^9.0.3",
+        "multer": "^1.4.5-lts.1",
+        "path": "^0.12.7",
+        "pg": "^8.20.0",
+        "serverless-http": "^4.0.0",
+        "tsx": "^4.17.0"
+    },
+    "scripts": {
+        "start": "tsx src/index.ts",
+        "dev": "tsx watch src/index.ts",
+        "build": "tsc",
+        "entidade:new": "tsx cli/novaEntidade.ts",
+        "entidade:del": "tsx cli/excluirEntidade.ts",
+        "prisma:build:migrate": "tsx cli/compactarModelos.ts && prisma migrate dev && prisma generate",
+        "prisma:build": "tsx cli/compactarModelos.ts && prisma generate",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.19",
+        "@types/jest": "^30.0.0",
+        "@types/jsonwebtoken": "^9.0.10",
+        "@types/node": "^25.6.0",
+        "@types/pg": "^8.18.0",
+        "@types/supertest": "^7.2.0",
+        "@vercel/node": "^4.0.0",
+        "dotenv": "^17.4.2",
+        "jest": "^30.3.0",
+        "prisma": "^7.7.0",
+        "supertest": "^7.2.2",
+        "ts-jest": "^29.4.9",
+        "ts-node": "^10.9.2"
+    }
 }

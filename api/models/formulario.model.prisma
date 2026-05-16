@@ -1,0 +1,21 @@
+
+model Formulario {
+    id           String             @id @default(uuid())
+    list_id      String
+    list         ListaDeFormularios @relation(fields: [list_id], references: [id])
+    user_id      String
+    user         User               @relation(fields: [user_id], references: [id])
+    type        String             //Enum SEMANAL DIARIO
+    started_at  DateTime
+    ended_at    DateTime
+    observations String
+    synced      Boolean @default(false)
+    createdAt    DateTime           @default(now())
+    updatedAt    DateTime           @updatedAt
+
+    checklists   Checklist[]
+    measurements Measurement[]
+    photos       Photo[]
+}
+
+    
