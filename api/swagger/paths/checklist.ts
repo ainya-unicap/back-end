@@ -1,3 +1,12 @@
+const checklistExample = {
+    id: "c1c1c1c1-1111-2222-3333-444444444444",
+    form_id: "f1f1f1f1-2222-3333-4444-555555555555",
+    template_id: "t1t1t1t1-1111-2222-3333-444444444444",
+    checked: true,
+    createdAt: "2026-05-29T11:35:00.000Z",
+    updatedAt: "2026-05-29T11:35:00.000Z",
+};
+
 export const checklistPaths = {
     "/checklist": {
         post: {
@@ -16,10 +25,20 @@ export const checklistPaths = {
                                 checked: { type: "boolean" },
                             },
                         },
+                        example: {
+                            form_id: checklistExample.form_id,
+                            template_id: checklistExample.template_id,
+                            checked: true,
+                        },
                     },
                 },
             },
-            responses: { "201": { description: "Criado" } },
+            responses: {
+                "201": {
+                    description: "Criado",
+                    content: { "application/json": { example: checklistExample } },
+                },
+            },
         },
     },
     "/checklist/{id}": {
@@ -38,10 +57,20 @@ export const checklistPaths = {
                             required: ["checked"],
                             properties: { checked: { type: "boolean" } },
                         },
+                        example: { checked: false },
                     },
                 },
             },
-            responses: { "200": { description: "Atualizado" } },
+            responses: {
+                "200": {
+                    description: "Atualizado",
+                    content: {
+                        "application/json": {
+                            example: { ...checklistExample, checked: false },
+                        },
+                    },
+                },
+            },
         },
     },
     "/checklist/formulario/{formularioId}": {
@@ -51,7 +80,25 @@ export const checklistPaths = {
             parameters: [
                 { name: "formularioId", in: "path", required: true, schema: { type: "string" } },
             ],
-            responses: { "200": { description: "Lista" } },
+            responses: {
+                "200": {
+                    description: "Lista",
+                    content: {
+                        "application/json": {
+                            example: [
+                                {
+                                    ...checklistExample,
+                                    template: {
+                                        id: checklistExample.template_id,
+                                        field_name: "Irrigação realizada",
+                                        unit: null,
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                },
+            },
         },
     },
 };

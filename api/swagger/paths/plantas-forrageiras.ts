@@ -1,3 +1,13 @@
+const plantaExample = {
+    id: "ffffffff-1111-2222-3333-444444444444",
+    name: "Brachiaria brizantha",
+    category: "GRAMINEA_PORTE_ALTO",
+    description: "Gramínea perene, de crescimento cespitoso, amplamente usada como forrageira em pastagens.",
+    semester_focus: "AMBOS",
+    createdAt: "2026-04-22T08:00:00.000Z",
+    updatedAt: "2026-04-22T08:00:00.000Z",
+};
+
 export const plantaForrageiraPaths = {
     "/plantas-forrageiras": {
         get: {
@@ -22,7 +32,25 @@ export const plantaForrageiraPaths = {
                     },
                 },
             ],
-            responses: { "200": { description: "Lista" } },
+            responses: {
+                "200": {
+                    description: "Lista",
+                    content: {
+                        "application/json": {
+                            example: [
+                                plantaExample,
+                                {
+                                    ...plantaExample,
+                                    id: "2",
+                                    name: "Stylosanthes guianensis",
+                                    category: "LEGUMINOSA_HERBACEA",
+                                    semester_focus: "SEGUNDO",
+                                },
+                            ],
+                        },
+                    },
+                },
+            },
         },
     },
     "/plantas-forrageiras/{id}": {
@@ -32,7 +60,20 @@ export const plantaForrageiraPaths = {
             parameters: [
                 { name: "id", in: "path", required: true, schema: { type: "string" } },
             ],
-            responses: { "200": { description: "Planta" } },
+            responses: {
+                "200": {
+                    description: "Planta",
+                    content: { "application/json": { example: plantaExample } },
+                },
+                "404": {
+                    description: "Planta não encontrada",
+                    content: {
+                        "application/json": {
+                            example: { error: "Planta não encontrada" },
+                        },
+                    },
+                },
+            },
         },
     },
 };
