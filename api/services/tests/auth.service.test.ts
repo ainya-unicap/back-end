@@ -93,6 +93,7 @@ describe("AuthService", () => {
                     data: expect.objectContaining({ userId: "user-1" }),
                 })
             );
+            expect(tokens.id).toBe("user-1");
             expect(tokens.accessToken).toBe("fake-access-token");
             expect(typeof tokens.refreshToken).toBe("string");
             expect(tokens.refreshToken.length).toBeGreaterThan(0);

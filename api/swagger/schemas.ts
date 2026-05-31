@@ -34,6 +34,7 @@ export const schemas = {
     TokensResponse: {
         type: "object",
         properties: {
+            id: { type: "string", description: "id do usuário autenticado" },
             accessToken: { type: "string" },
             refreshToken: { type: "string" },
         },
