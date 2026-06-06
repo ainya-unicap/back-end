@@ -1,0 +1,1050 @@
+{
+    "info": {
+        "_postman_id": "donkeycode-all-endpoints",
+        "name": "DonkeyCode - Todos os endpoints",
+        "description": "Cobertura completa da API do DonkeyCode (~60 endpoints).\n\nCOMO USAR:\n1. Importe esse arquivo no Postman.\n2. Rode a pasta '0. Setup' primeiro (Run folder). Ela popula automaticamente as variáveis (institutionId, accessToken, userId, plantId, templateId, canteiroId, listaId, formularioId, relatorioId) usadas em todos os outros endpoints.\n3. A partir daí, qualquer request das pastas seguintes funciona com 1 clique no Send.\n\nbaseUrl aponta para a Vercel por padrão. Troque para http://localhost:3000/api se quiser local.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "0. Setup (rode primeiro - Run folder)",
+            "description": "Sequência que prepara todas as variáveis. Rode esta pasta inteira antes de testar qualquer endpoint individual.",
+            "item": [
+                {
+                    "name": "0.1 Cadastrar usuário (POST /users)",
+                    "event": [
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "exec": [
+                                    "const ts = Date.now();",
+                                    "pm.collectionVariables.set('userEmail', `aluno-${ts}@teste.com`);",
+                                    "pm.sendRequest({ url: pm.collectionVariables.get('baseUrl') + '/institutions', method: 'GET' }, (err, res) => {",
+                                    "    if (err || res.code !== 200) return;",
+                                    "    const body = res.json();",
+                                    "    const lista = Array.isArray(body) ? body : (body.data || []);",
+                                    "    if (lista.length > 0) {",
+                                    "        pm.collectionVariables.set('institutionId', lista[0].id);",
+                                    "        console.log('institutionId =', lista[0].id);",
+                                    "    }",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        },
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('201 created', () => pm.response.to.have.status(201));"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Aluno Teste\",\n    \"email\": \"{{userEmail}}\",\n    \"password\": \"senha123\",\n    \"role\": \"aluno\",\n    \"institutionId\": \"{{institutionId}}\"\n}"
+                        },
+                        "url": { "raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"] }
+                    }
+                },
+                {
+                    "name": "0.2 Login (POST /users/login)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('200 ok', () => pm.response.to.have.status(200));",
+                                    "const body = pm.response.json();",
+                                    "pm.collectionVariables.set('userId', body.id);",
+                                    "pm.collectionVariables.set('accessToken', body.accessToken);",
+                                    "pm.collectionVariables.set('refreshToken', body.refreshToken);",
+                                    "console.log('userId =', body.id);"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": { "mode": "raw", "raw": "{\n    \"email\": \"{{userEmail}}\",\n    \"password\": \"senha123\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/users/login", "host": ["{{baseUrl}}"], "path": ["users", "login"] }
+                    }
+                },
+                {
+                    "name": "0.3 Pegar planta forrageira (GET /plantas-forrageiras)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "const body = pm.response.json();",
+                                    "const arr = Array.isArray(body) ? body : (body.data || []);",
+                                    "if (arr.length > 0) { pm.collectionVariables.set('plantId', arr[0].id); console.log('plantId =', arr[0].id); }"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/plantas-forrageiras", "host": ["{{baseUrl}}"], "path": ["plantas-forrageiras"] }
+                    }
+                },
+                {
+                    "name": "0.4 Pegar template (GET /plant-templates?plant_id=)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "const body = pm.response.json();",
+                                    "const arr = Array.isArray(body) ? body : (body.data || []);",
+                                    "if (arr.length > 0) { pm.collectionVariables.set('templateId', arr[0].id); console.log('templateId =', arr[0].id); }"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": {
+                            "raw": "{{baseUrl}}/plant-templates?plant_id={{plantId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["plant-templates"],
+                            "query": [{ "key": "plant_id", "value": "{{plantId}}" }]
+                        }
+                    }
+                },
+                {
+                    "name": "0.5 Criar canteiro (POST /canteiros)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "const body = pm.response.json();",
+                                    "pm.collectionVariables.set('canteiroId', body.id);",
+                                    "console.log('canteiroId =', body.id);"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"plant_id\": \"{{plantId}}\",\n    \"name\": \"Canteiro Postman Setup\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/canteiros", "host": ["{{baseUrl}}"], "path": ["canteiros"] }
+                    }
+                },
+                {
+                    "name": "0.6 Criar lista (POST /listas-formularios)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "const body = pm.response.json();",
+                                    "pm.collectionVariables.set('listaId', body.id);",
+                                    "console.log('listaId =', body.id);"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"canteiro_id\": \"{{canteiroId}}\",\n    \"name\": \"Semana 1\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/listas-formularios", "host": ["{{baseUrl}}"], "path": ["listas-formularios"] }
+                    }
+                },
+                {
+                    "name": "0.7 Criar formulário (POST /formularios)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "const body = pm.response.json();",
+                                    "const data = body.data || body;",
+                                    "pm.collectionVariables.set('formularioId', data.id);",
+                                    "console.log('formularioId =', data.id);"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"list_id\": \"{{listaId}}\",\n    \"type\": \"SEMANAL\",\n    \"observations\": \"Setup automático da collection.\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/formularios", "host": ["{{baseUrl}}"], "path": ["formularios"] }
+                    }
+                },
+                {
+                    "name": "0.8 Gerar relatório (POST /relatorios/generate)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "const body = pm.response.json();",
+                                    "pm.collectionVariables.set('relatorioId', body.id);",
+                                    "console.log('relatorioId =', body.id);",
+                                    "console.log('=== Setup completo, agora dá pra rodar qualquer endpoint individual ===');"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"list_id\": \"{{listaId}}\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/relatorios/generate", "host": ["{{baseUrl}}"], "path": ["relatorios", "generate"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Cadastrar usuário (POST /users) [público]",
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": { "mode": "raw", "raw": "{\n    \"name\": \"Novo Aluno\",\n    \"email\": \"novo-{{$timestamp}}@teste.com\",\n    \"password\": \"senha123\",\n    \"role\": \"aluno\",\n    \"institutionId\": \"{{institutionId}}\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"] }
+                    }
+                },
+                {
+                    "name": "Login (POST /users/login) [público, rate-limited]",
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": { "mode": "raw", "raw": "{\n    \"email\": \"{{userEmail}}\",\n    \"password\": \"senha123\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/users/login", "host": ["{{baseUrl}}"], "path": ["users", "login"] }
+                    }
+                },
+                {
+                    "name": "Refresh (POST /users/refresh) [público]",
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": { "mode": "raw", "raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/users/refresh", "host": ["{{baseUrl}}"], "path": ["users", "refresh"] }
+                    }
+                },
+                {
+                    "name": "Logout (POST /users/logout) [público]",
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": { "mode": "raw", "raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/users/logout", "host": ["{{baseUrl}}"], "path": ["users", "logout"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "item": [
+                {
+                    "name": "Listar usuários (GET /users)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"] }
+                    }
+                },
+                {
+                    "name": "Buscar usuário por id (GET /users/:id)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/users/{{userId}}", "host": ["{{baseUrl}}"], "path": ["users", "{{userId}}"] }
+                    }
+                },
+                {
+                    "name": "Atualizar perfil (PUT /users/:id/profile)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"name\": \"Aluno Teste Atualizado\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/users/{{userId}}/profile", "host": ["{{baseUrl}}"], "path": ["users", "{{userId}}", "profile"] }
+                    }
+                },
+                {
+                    "name": "Atualizar avatar (PUT /users/:id/avatar) [multipart]",
+                    "request": {
+                        "method": "PUT",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                { "key": "avatar", "type": "file", "src": [] }
+                            ]
+                        },
+                        "url": { "raw": "{{baseUrl}}/users/{{userId}}/avatar", "host": ["{{baseUrl}}"], "path": ["users", "{{userId}}", "avatar"] },
+                        "description": "Selecione um arquivo .jpg/.png/.webp em 'avatar' antes de enviar."
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Institutions",
+            "item": [
+                {
+                    "name": "Listar (GET /institutions) [público]",
+                    "request": {
+                        "method": "GET",
+                        "url": { "raw": "{{baseUrl}}/institutions", "host": ["{{baseUrl}}"], "path": ["institutions"] }
+                    }
+                },
+                {
+                    "name": "Criar (POST /institutions)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"name\": \"Faculdade Postman {{$timestamp}}\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/institutions", "host": ["{{baseUrl}}"], "path": ["institutions"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Canteiros",
+            "item": [
+                {
+                    "name": "Listar por query user_id (GET /canteiros?user_id=)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": {
+                            "raw": "{{baseUrl}}/canteiros?user_id={{userId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["canteiros"],
+                            "query": [{ "key": "user_id", "value": "{{userId}}" }]
+                        }
+                    }
+                },
+                {
+                    "name": "Criar (POST /canteiros)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"plant_id\": \"{{plantId}}\",\n    \"name\": \"Canteiro novo\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/canteiros", "host": ["{{baseUrl}}"], "path": ["canteiros"] }
+                    }
+                },
+                {
+                    "name": "Por user (GET /canteiros/user/:userId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/canteiros/user/{{userId}}", "host": ["{{baseUrl}}"], "path": ["canteiros", "user", "{{userId}}"] }
+                    }
+                },
+                {
+                    "name": "Listas do canteiro (GET /canteiros/:canteiroId/listas)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/canteiros/{{canteiroId}}/listas", "host": ["{{baseUrl}}"], "path": ["canteiros", "{{canteiroId}}", "listas"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "UserCanteiros",
+            "item": [
+                {
+                    "name": "Vincular (POST /user-canteiros)",
+                    "description": "Já criado no setup; rodar de novo retorna 409 (vínculo já existe).",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"canteiro_id\": \"{{canteiroId}}\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/user-canteiros", "host": ["{{baseUrl}}"], "path": ["user-canteiros"] }
+                    }
+                },
+                {
+                    "name": "Por user (GET /user-canteiros/user/:userId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/user-canteiros/user/{{userId}}", "host": ["{{baseUrl}}"], "path": ["user-canteiros", "user", "{{userId}}"] }
+                    }
+                },
+                {
+                    "name": "Por canteiro (GET /user-canteiros/canteiro/:canteiroId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/user-canteiros/canteiro/{{canteiroId}}", "host": ["{{baseUrl}}"], "path": ["user-canteiros", "canteiro", "{{canteiroId}}"] }
+                    }
+                },
+                {
+                    "name": "Desvincular (DELETE /user-canteiros) [destrutivo]",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"canteiro_id\": \"{{canteiroId}}\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/user-canteiros", "host": ["{{baseUrl}}"], "path": ["user-canteiros"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Listas-Formularios",
+            "item": [
+                {
+                    "name": "Criar (POST /listas-formularios)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"canteiro_id\": \"{{canteiroId}}\",\n    \"name\": \"Semana 2\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/listas-formularios", "host": ["{{baseUrl}}"], "path": ["listas-formularios"] }
+                    }
+                },
+                {
+                    "name": "Listas do canteiro (GET /listas-formularios/canteiro/:canteiroId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/listas-formularios/canteiro/{{canteiroId}}", "host": ["{{baseUrl}}"], "path": ["listas-formularios", "canteiro", "{{canteiroId}}"] }
+                    }
+                },
+                {
+                    "name": "Lista por id (GET /listas-formularios/:listaId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/listas-formularios/{{listaId}}", "host": ["{{baseUrl}}"], "path": ["listas-formularios", "{{listaId}}"] }
+                    }
+                },
+                {
+                    "name": "Formulários da lista (GET /listas-formularios/:id/formularios)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/listas-formularios/{{listaId}}/formularios", "host": ["{{baseUrl}}"], "path": ["listas-formularios", "{{listaId}}", "formularios"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Formularios",
+            "item": [
+                {
+                    "name": "Listar por user query (GET /formularios?user_id=)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": {
+                            "raw": "{{baseUrl}}/formularios?user_id={{userId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["formularios"],
+                            "query": [{ "key": "user_id", "value": "{{userId}}" }]
+                        }
+                    }
+                },
+                {
+                    "name": "Criar (POST /formularios)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"list_id\": \"{{listaId}}\",\n    \"type\": \"SEMANAL\",\n    \"observations\": \"Novo formulário criado pela collection.\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/formularios", "host": ["{{baseUrl}}"], "path": ["formularios"] }
+                    }
+                },
+                {
+                    "name": "Por user (GET /formularios/user/:userId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/formularios/user/{{userId}}", "host": ["{{baseUrl}}"], "path": ["formularios", "user", "{{userId}}"] }
+                    }
+                },
+                {
+                    "name": "Por id (GET /formularios/:id)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/formularios/{{formularioId}}", "host": ["{{baseUrl}}"], "path": ["formularios", "{{formularioId}}"] }
+                    }
+                },
+                {
+                    "name": "Atualizar (PUT /formularios/:id)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"observations\": \"Observações atualizadas via collection.\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/formularios/{{formularioId}}", "host": ["{{baseUrl}}"], "path": ["formularios", "{{formularioId}}"] }
+                    }
+                },
+                {
+                    "name": "GET checklist do formulário",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/formularios/{{formularioId}}/checklist", "host": ["{{baseUrl}}"], "path": ["formularios", "{{formularioId}}", "checklist"] }
+                    }
+                },
+                {
+                    "name": "POST checklist em lote (template_ids)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"template_ids\": [\"{{templateId}}\"]\n}" },
+                        "url": { "raw": "{{baseUrl}}/formularios/{{formularioId}}/checklist", "host": ["{{baseUrl}}"], "path": ["formularios", "{{formularioId}}", "checklist"] }
+                    }
+                },
+                {
+                    "name": "GET measurements do formulário",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/formularios/{{formularioId}}/measurements", "host": ["{{baseUrl}}"], "path": ["formularios", "{{formularioId}}", "measurements"] }
+                    }
+                },
+                {
+                    "name": "POST measurements em lote",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"measurements\": [\n        { \"template_id\": \"{{templateId}}\", \"value\": 42.5 }\n    ]\n}" },
+                        "url": { "raw": "{{baseUrl}}/formularios/{{formularioId}}/measurements", "host": ["{{baseUrl}}"], "path": ["formularios", "{{formularioId}}", "measurements"] }
+                    }
+                },
+                {
+                    "name": "GET photos do formulário",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/formularios/{{formularioId}}/photos", "host": ["{{baseUrl}}"], "path": ["formularios", "{{formularioId}}", "photos"] }
+                    }
+                },
+                {
+                    "name": "POST photo do formulário (multipart)",
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [{ "key": "photo", "type": "file", "src": [] }]
+                        },
+                        "url": { "raw": "{{baseUrl}}/formularios/{{formularioId}}/photos", "host": ["{{baseUrl}}"], "path": ["formularios", "{{formularioId}}", "photos"] },
+                        "description": "Selecione um arquivo de imagem em 'photo' antes de enviar."
+                    }
+                },
+                {
+                    "name": "Finalizar (POST /formularios/:id/finalizar)",
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/formularios/{{formularioId}}/finalizar", "host": ["{{baseUrl}}"], "path": ["formularios", "{{formularioId}}", "finalizar"] }
+                    }
+                },
+                {
+                    "name": "Sync offline (POST /formularios/:id/sync)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"formulario\": { \"observations\": \"Sync offline.\" },\n    \"checklist\": [{ \"template_id\": \"{{templateId}}\", \"checked\": true }],\n    \"measurements\": [{ \"template_id\": \"{{templateId}}\", \"value\": 38 }],\n    \"photos\": []\n}" },
+                        "url": { "raw": "{{baseUrl}}/formularios/{{formularioId}}/sync", "host": ["{{baseUrl}}"], "path": ["formularios", "{{formularioId}}", "sync"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Relatorios",
+            "item": [
+                {
+                    "name": "Por user (GET /relatorios/user/:userId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/relatorios/user/{{userId}}", "host": ["{{baseUrl}}"], "path": ["relatorios", "user", "{{userId}}"] }
+                    }
+                },
+                {
+                    "name": "Gerar (POST /relatorios/generate)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"list_id\": \"{{listaId}}\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/relatorios/generate", "host": ["{{baseUrl}}"], "path": ["relatorios", "generate"] }
+                    }
+                },
+                {
+                    "name": "Por id (GET /relatorios/:id)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/relatorios/{{relatorioId}}", "host": ["{{baseUrl}}"], "path": ["relatorios", "{{relatorioId}}"] }
+                    }
+                },
+                {
+                    "name": "Atualizar múltiplas seções (PUT /relatorios/:id)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"introduction\": \"Introdução do relatório.\",\n    \"development\": \"Desenvolvimento detalhado.\",\n    \"final_thoughts\": \"Considerações finais.\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/relatorios/{{relatorioId}}", "host": ["{{baseUrl}}"], "path": ["relatorios", "{{relatorioId}}"] }
+                    }
+                },
+                {
+                    "name": "Atualizar objective (PUT /relatorios/:id/objective)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"objective\": \"Novo objetivo.\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/relatorios/{{relatorioId}}/objective", "host": ["{{baseUrl}}"], "path": ["relatorios", "{{relatorioId}}", "objective"] }
+                    }
+                },
+                {
+                    "name": "Atualizar introduction (PUT /relatorios/:id/introduction)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"introduction\": \"Texto da introdução.\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/relatorios/{{relatorioId}}/introduction", "host": ["{{baseUrl}}"], "path": ["relatorios", "{{relatorioId}}", "introduction"] }
+                    }
+                },
+                {
+                    "name": "Atualizar development (PUT /relatorios/:id/development)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"development\": \"Texto do desenvolvimento.\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/relatorios/{{relatorioId}}/development", "host": ["{{baseUrl}}"], "path": ["relatorios", "{{relatorioId}}", "development"] }
+                    }
+                },
+                {
+                    "name": "Atualizar final-thoughts (PUT /relatorios/:id/final-thoughts)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"final_thoughts\": \"Considerações finais.\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/relatorios/{{relatorioId}}/final-thoughts", "host": ["{{baseUrl}}"], "path": ["relatorios", "{{relatorioId}}", "final-thoughts"] }
+                    }
+                },
+                {
+                    "name": "Atualizar references (PUT /relatorios/:id/references)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"references\": \"EMBRAPA. Manual 2020.\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/relatorios/{{relatorioId}}/references", "host": ["{{baseUrl}}"], "path": ["relatorios", "{{relatorioId}}", "references"] }
+                    }
+                },
+                {
+                    "name": "Submeter (POST /relatorios/:id/submit) [destrutivo: trava edições]",
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/relatorios/{{relatorioId}}/submit", "host": ["{{baseUrl}}"], "path": ["relatorios", "{{relatorioId}}", "submit"] }
+                    }
+                },
+                {
+                    "name": "Exportar PDF (GET /relatorios/:id/export-pdf)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/relatorios/{{relatorioId}}/export-pdf", "host": ["{{baseUrl}}"], "path": ["relatorios", "{{relatorioId}}", "export-pdf"] },
+                        "description": "Retorna application/pdf. No Postman, clique em 'Save Response > Save to a file' para salvar o PDF."
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Plantas Forrageiras",
+            "item": [
+                {
+                    "name": "Listar (GET /plantas-forrageiras)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/plantas-forrageiras", "host": ["{{baseUrl}}"], "path": ["plantas-forrageiras"] }
+                    }
+                },
+                {
+                    "name": "Filtrar por categoria (GET ?category=)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": {
+                            "raw": "{{baseUrl}}/plantas-forrageiras?category=GRAMINEA_PORTE_ALTO",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["plantas-forrageiras"],
+                            "query": [{ "key": "category", "value": "GRAMINEA_PORTE_ALTO" }]
+                        }
+                    }
+                },
+                {
+                    "name": "Por id (GET /plantas-forrageiras/:id)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/plantas-forrageiras/{{plantId}}", "host": ["{{baseUrl}}"], "path": ["plantas-forrageiras", "{{plantId}}"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Plant Templates",
+            "item": [
+                {
+                    "name": "Listar por planta (GET /plant-templates?plant_id=)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": {
+                            "raw": "{{baseUrl}}/plant-templates?plant_id={{plantId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["plant-templates"],
+                            "query": [{ "key": "plant_id", "value": "{{plantId}}" }]
+                        }
+                    }
+                },
+                {
+                    "name": "Criar (POST /plant-templates)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"plant_id\": \"{{plantId}}\",\n    \"field_name\": \"Número de folhas\",\n    \"unit\": \"un\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/plant-templates", "host": ["{{baseUrl}}"], "path": ["plant-templates"] }
+                    }
+                },
+                {
+                    "name": "Por planta no path (GET /plant-templates/plant/:plantId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/plant-templates/plant/{{plantId}}", "host": ["{{baseUrl}}"], "path": ["plant-templates", "plant", "{{plantId}}"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Checklist",
+            "item": [
+                {
+                    "name": "Criar item (POST /checklist)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"form_id\": \"{{formularioId}}\",\n    \"template_id\": \"{{templateId}}\",\n    \"checked\": true\n}" },
+                        "url": { "raw": "{{baseUrl}}/checklist", "host": ["{{baseUrl}}"], "path": ["checklist"] }
+                    }
+                },
+                {
+                    "name": "Por formulário (GET /checklist/formulario/:formularioId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/checklist/formulario/{{formularioId}}", "host": ["{{baseUrl}}"], "path": ["checklist", "formulario", "{{formularioId}}"] }
+                    }
+                },
+                {
+                    "name": "Atualizar checked (PUT /checklist/:id)",
+                    "description": "Precisa de um checklist_id (rode POST acima e copie o id).",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"checked\": false\n}" },
+                        "url": { "raw": "{{baseUrl}}/checklist/CHECKLIST_ID_AQUI", "host": ["{{baseUrl}}"], "path": ["checklist", "CHECKLIST_ID_AQUI"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Measurements",
+            "item": [
+                {
+                    "name": "Criar (POST /measurements)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"form_id\": \"{{formularioId}}\",\n    \"template_id\": \"{{templateId}}\",\n    \"value\": 42.5\n}" },
+                        "url": { "raw": "{{baseUrl}}/measurements", "host": ["{{baseUrl}}"], "path": ["measurements"] }
+                    }
+                },
+                {
+                    "name": "Por formulário (GET /measurements/formulario/:formularioId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/measurements/formulario/{{formularioId}}", "host": ["{{baseUrl}}"], "path": ["measurements", "formulario", "{{formularioId}}"] }
+                    }
+                },
+                {
+                    "name": "Atualizar value (PUT /measurements/:id)",
+                    "description": "Precisa de um measurement_id (rode POST acima e copie o id).",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"value\": 50\n}" },
+                        "url": { "raw": "{{baseUrl}}/measurements/MEASUREMENT_ID_AQUI", "host": ["{{baseUrl}}"], "path": ["measurements", "MEASUREMENT_ID_AQUI"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Photos",
+            "item": [
+                {
+                    "name": "Registrar por URL (POST /photos)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"form_id\": \"{{formularioId}}\",\n    \"url\": \"https://exemplo.com/foto.jpg\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/photos", "host": ["{{baseUrl}}"], "path": ["photos"] }
+                    }
+                },
+                {
+                    "name": "Upload (POST /photos/upload) [multipart]",
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [{ "key": "photo", "type": "file", "src": [] }]
+                        },
+                        "url": { "raw": "{{baseUrl}}/photos/upload", "host": ["{{baseUrl}}"], "path": ["photos", "upload"] },
+                        "description": "Selecione um arquivo de imagem em 'photo' antes de enviar."
+                    }
+                },
+                {
+                    "name": "Por formulário (GET /photos/formulario/:formularioId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/photos/formulario/{{formularioId}}", "host": ["{{baseUrl}}"], "path": ["photos", "formulario", "{{formularioId}}"] }
+                    }
+                },
+                {
+                    "name": "Remover (DELETE /photos/:id)",
+                    "description": "Precisa de um photo_id (rode POST acima e copie o id). Apaga do Blob/disco também.",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/photos/PHOTO_ID_AQUI", "host": ["{{baseUrl}}"], "path": ["photos", "PHOTO_ID_AQUI"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Alunos",
+            "item": [
+                {
+                    "name": "Resumo (GET /alunos/:id/resumo)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/alunos/{{userId}}/resumo", "host": ["{{baseUrl}}"], "path": ["alunos", "{{userId}}", "resumo"] }
+                    }
+                },
+                {
+                    "name": "Home (GET /alunos/:userId/home)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/alunos/{{userId}}/home", "host": ["{{baseUrl}}"], "path": ["alunos", "{{userId}}", "home"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Turmas",
+            "item": [
+                {
+                    "name": "Listar (GET /turmas)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/turmas", "host": ["{{baseUrl}}"], "path": ["turmas"] }
+                    }
+                },
+                {
+                    "name": "Por id (GET /turmas/:id)",
+                    "description": "Substitua TURMA_ID_AQUI por um id real (liste com endpoint acima e copie).",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/turmas/TURMA_ID_AQUI", "host": ["{{baseUrl}}"], "path": ["turmas", "TURMA_ID_AQUI"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "AlunoTurma",
+            "item": [
+                {
+                    "name": "Vincular (POST /aluno-turma)",
+                    "description": "Substitua TURMA_ID_AQUI por uma turma existente.",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": { "mode": "raw", "raw": "{\n    \"user_id\": \"{{userId}}\",\n    \"turma_id\": \"TURMA_ID_AQUI\"\n}" },
+                        "url": { "raw": "{{baseUrl}}/aluno-turma", "host": ["{{baseUrl}}"], "path": ["aluno-turma"] }
+                    }
+                },
+                {
+                    "name": "Turmas do aluno (GET /aluno-turma/user/:userId)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/aluno-turma/user/{{userId}}", "host": ["{{baseUrl}}"], "path": ["aluno-turma", "user", "{{userId}}"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Academic Periods",
+            "item": [
+                {
+                    "name": "Listar (GET /academic-periods)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/academic-periods", "host": ["{{baseUrl}}"], "path": ["academic-periods"] }
+                    }
+                },
+                {
+                    "name": "Ativo (GET /academic-periods/active)",
+                    "request": {
+                        "method": "GET",
+                        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+                        "url": { "raw": "{{baseUrl}}/academic-periods/active", "host": ["{{baseUrl}}"], "path": ["academic-periods", "active"] }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Health",
+            "item": [
+                {
+                    "name": "Status (GET /health) [público]",
+                    "request": {
+                        "method": "GET",
+                        "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        { "key": "baseUrl", "value": "https://back-end-ainya.vercel.app/api" },
+        { "key": "userEmail", "value": "" },
+        { "key": "userId", "value": "" },
+        { "key": "accessToken", "value": "" },
+        { "key": "refreshToken", "value": "" },
+        { "key": "institutionId", "value": "" },
+        { "key": "plantId", "value": "" },
+        { "key": "templateId", "value": "" },
+        { "key": "canteiroId", "value": "" },
+        { "key": "listaId", "value": "" },
+        { "key": "formularioId", "value": "" },
+        { "key": "relatorioId", "value": "" }
+    ]
+}

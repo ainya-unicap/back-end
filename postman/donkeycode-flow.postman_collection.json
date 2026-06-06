@@ -1,0 +1,358 @@
+{
+    "info": {
+        "_postman_id": "donkeycode-flow-7-endpoints",
+        "name": "DonkeyCode - Fluxo principal (7 + 1 opcional)",
+        "description": "Fluxo de teste end-to-end do back-end do DonkeyCode: cadastro -> login -> setup de canteiro -> lista semanal -> relatório -> submissão.\n\nPasso 8 opcional: desvincula o aluno do canteiro (DELETE /user-canteiros) — útil como teardown ou para demonstrar a operação. Pode pular sem afetar a apresentação.\n\nVariáveis (collectionVariables) são preenchidas automaticamente pelos scripts de cada etapa, então é só rodar em ordem. baseUrl aponta para a Vercel por padrão; troque para http://localhost:3000/api se quiser testar local.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "1. Cadastrar usuário (POST /users)",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "// Setup automático antes do cadastro:",
+                            "// (a) gera email único para cada execução,",
+                            "// (b) busca uma instituição via GET /institutions (público) e guarda o id",
+                            "//     na variável institutionId — assim o body já vai pronto.",
+                            "const ts = Date.now();",
+                            "pm.collectionVariables.set('userEmail', `aluno-${ts}@teste.com`);",
+                            "",
+                            "pm.sendRequest({",
+                            "    url: pm.collectionVariables.get('baseUrl') + '/institutions',",
+                            "    method: 'GET'",
+                            "}, (err, res) => {",
+                            "    if (err) { console.error('Falha ao buscar instituições:', err); return; }",
+                            "    if (res.code !== 200) { console.error('GET /institutions retornou', res.code); return; }",
+                            "    const body = res.json();",
+                            "    const lista = Array.isArray(body) ? body : (body.data || []);",
+                            "    if (lista.length === 0) {",
+                            "        console.warn('Nenhuma instituição encontrada — rode o seed antes. Cadastro vai seguir sem institutionId.');",
+                            "        pm.collectionVariables.set('institutionId', '');",
+                            "        return;",
+                            "    }",
+                            "    pm.collectionVariables.set('institutionId', lista[0].id);",
+                            "    console.log('institutionId =', lista[0].id, '(', lista[0].name, ')');",
+                            "});"
+                        ]
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('status 201', () => pm.response.to.have.status(201));",
+                            "pm.test('mensagem de sucesso', () => {",
+                            "    const body = pm.response.json();",
+                            "    pm.expect(body.message).to.eql('created successfully');",
+                            "});"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"name\": \"Aluno Teste\",\n    \"email\": \"{{userEmail}}\",\n    \"password\": \"senha123\",\n    \"role\": \"aluno\",\n    \"institutionId\": \"{{institutionId}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/users",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["users"]
+                }
+            }
+        },
+        {
+            "name": "2. Login (POST /users/login)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('status 200', () => pm.response.to.have.status(200));",
+                            "const body = pm.response.json();",
+                            "pm.test('resposta tem id, accessToken e refreshToken', () => {",
+                            "    pm.expect(body).to.have.property('id');",
+                            "    pm.expect(body).to.have.property('accessToken');",
+                            "    pm.expect(body).to.have.property('refreshToken');",
+                            "});",
+                            "// Guarda nas variáveis da collection para usar nos próximos passos",
+                            "pm.collectionVariables.set('userId', body.id);",
+                            "pm.collectionVariables.set('accessToken', body.accessToken);",
+                            "pm.collectionVariables.set('refreshToken', body.refreshToken);",
+                            "console.log('userId =', body.id);"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"email\": \"{{userEmail}}\",\n    \"password\": \"senha123\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/users/login",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["users", "login"]
+                }
+            }
+        },
+        {
+            "name": "3. Listar plantas forrageiras (GET /plantas-forrageiras)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('status 200', () => pm.response.to.have.status(200));",
+                            "const lista = pm.response.json();",
+                            "pm.test('retornou pelo menos uma planta', () => {",
+                            "    pm.expect(Array.isArray(lista) || Array.isArray(lista.data)).to.be.true;",
+                            "});",
+                            "// Aceita resposta como array direto ou envelope { data: [...] }",
+                            "const arr = Array.isArray(lista) ? lista : (lista.data || []);",
+                            "if (arr.length > 0) {",
+                            "    pm.collectionVariables.set('plantId', arr[0].id);",
+                            "    console.log('plantId =', arr[0].id);",
+                            "} else {",
+                            "    console.warn('Nenhuma planta encontrada — rode o seed antes.');",
+                            "}"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/plantas-forrageiras",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["plantas-forrageiras"]
+                }
+            }
+        },
+        {
+            "name": "4. Criar canteiro (POST /canteiros)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('status 201', () => pm.response.to.have.status(201));",
+                            "const body = pm.response.json();",
+                            "pm.test('retornou id do canteiro', () => pm.expect(body.id).to.be.a('string'));",
+                            "pm.collectionVariables.set('canteiroId', body.id);",
+                            "console.log('canteiroId =', body.id);"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"plant_id\": \"{{plantId}}\",\n    \"name\": \"Canteiro de teste - Postman\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/canteiros",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["canteiros"]
+                }
+            }
+        },
+        {
+            "name": "5. Criar lista de formulários (POST /listas-formularios)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('status 201', () => pm.response.to.have.status(201));",
+                            "const body = pm.response.json();",
+                            "pm.test('retornou id da lista', () => pm.expect(body.id).to.be.a('string'));",
+                            "pm.collectionVariables.set('listaId', body.id);",
+                            "console.log('listaId =', body.id);"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"canteiro_id\": \"{{canteiroId}}\",\n    \"name\": \"Semana 1\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/listas-formularios",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["listas-formularios"]
+                }
+            }
+        },
+        {
+            "name": "6. Preencher desenvolvimento (PUT /relatorios/:id/development)",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "// Cria o relatório em RASCUNHO antes de preencher a seção.",
+                            "// (POST /relatorios/generate hoje só faz INSERT — IA fica para v2)",
+                            "pm.sendRequest({",
+                            "    url: pm.collectionVariables.get('baseUrl') + '/relatorios/generate',",
+                            "    method: 'POST',",
+                            "    header: {",
+                            "        'Content-Type': 'application/json',",
+                            "        'Authorization': 'Bearer ' + pm.collectionVariables.get('accessToken')",
+                            "    },",
+                            "    body: { mode: 'raw', raw: JSON.stringify({ list_id: pm.collectionVariables.get('listaId') }) }",
+                            "}, (err, res) => {",
+                            "    if (err) { console.error('Falha ao criar relatório:', err); return; }",
+                            "    if (res.code !== 201) { console.error('generate retornou', res.code, res.text()); return; }",
+                            "    const body = res.json();",
+                            "    pm.collectionVariables.set('relatorioId', body.id);",
+                            "    console.log('relatorioId criado =', body.id);",
+                            "});"
+                        ]
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('status 200', () => pm.response.to.have.status(200));",
+                            "const body = pm.response.json();",
+                            "pm.test('seção development foi atualizada', () => {",
+                            "    pm.expect(body.development).to.include('desenvolvimento');",
+                            "});",
+                            "pm.test('status ainda é RASCUNHO (pré-submissão)', () => {",
+                            "    pm.expect(body.status).to.eql('RASCUNHO');",
+                            "});"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "PUT",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"development\": \"Durante 8 semanas de acompanhamento da planta, observou-se um desenvolvimento vegetativo dentro do esperado. A altura média variou de 12cm na semana 1 para 38cm na semana 6. As práticas de irrigação foram aplicadas em todas as semanas, e a adubação foi realizada nas semanas 2 e 5.\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/relatorios/{{relatorioId}}/development",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["relatorios", "{{relatorioId}}", "development"]
+                }
+            }
+        },
+        {
+            "name": "7. Submeter relatório (POST /relatorios/:id/submit)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('status 200', () => pm.response.to.have.status(200));",
+                            "const body = pm.response.json();",
+                            "pm.test('status virou SUBMETIDO', () => {",
+                            "    pm.expect(body.status).to.eql('SUBMETIDO');",
+                            "});",
+                            "console.log('=== Fluxo completo com sucesso ===');"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/relatorios/{{relatorioId}}/submit",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["relatorios", "{{relatorioId}}", "submit"]
+                }
+            }
+        },
+        {
+            "name": "8. (Opcional) Desvincular do canteiro (DELETE /user-canteiros)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('status 200', () => pm.response.to.have.status(200));",
+                            "const body = pm.response.json();",
+                            "pm.test('mensagem de remoção', () => {",
+                            "    pm.expect(body.message).to.eql('Vínculo removido com sucesso');",
+                            "});",
+                            "console.log('=== Vínculo UserCanteiro removido ===');"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "DELETE",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"canteiro_id\": \"{{canteiroId}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/user-canteiros",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["user-canteiros"]
+                }
+            }
+        }
+    ],
+    "variable": [
+        { "key": "baseUrl", "value": "https://back-end-ainya.vercel.app/api" },
+        { "key": "userEmail", "value": "" },
+        { "key": "userId", "value": "" },
+        { "key": "accessToken", "value": "" },
+        { "key": "refreshToken", "value": "" },
+        { "key": "institutionId", "value": "" },
+        { "key": "plantId", "value": "" },
+        { "key": "canteiroId", "value": "" },
+        { "key": "listaId", "value": "" },
+        { "key": "relatorioId", "value": "" }
+    ]
+}
