@@ -9,6 +9,7 @@ relatorioRouter.post("/generate", RelatorioController.generate);
 
 relatorioRouter.get("/:id", RelatorioController.findById);
 relatorioRouter.put("/:id", RelatorioController.update);
+relatorioRouter.delete("/:id", RelatorioController.delete);
 
 relatorioRouter.patch("/:id/objetivo", RelatorioController.updateObjective);
 relatorioRouter.put("/:id/objective", RelatorioController.updateObjective);

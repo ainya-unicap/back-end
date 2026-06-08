@@ -12,10 +12,11 @@ jest.mock("../../../lib/prisma", () => ({
             findUnique: jest.fn(),
             create: jest.fn(),
             update: jest.fn(),
+            delete: jest.fn(),
         },
-        checklist: { findMany: jest.fn() },
-        measurement: { findMany: jest.fn() },
-        photo: { findMany: jest.fn() },
+        checklist: { findMany: jest.fn(), deleteMany: jest.fn() },
+        measurement: { findMany: jest.fn(), deleteMany: jest.fn() },
+        photo: { findMany: jest.fn(), deleteMany: jest.fn() },
         $transaction: jest.fn(),
     },
 }));
@@ -289,6 +290,48 @@ describe("FormularioService", () => {
         it("deve lançar 400 quando id estiver vazio", async () => {
             await expect(
                 FormularioService.update("", {})
+            ).rejects.toMatchObject({ status: 400 });
+        });
+    });
+
+    // ──────────────────────────────────────────────
+    // delete (com ownership e cascata de filhos)
+    // ──────────────────────────────────────────────
+    describe("delete", () => {
+        it("deve apagar formulário e filhos em transação (dono)", async () => {
+            formMock.findUnique.mockResolvedValue({ ...formularioStub, photos: [] });
+            transactionMock.mockResolvedValue([]);
+
+            const result = await FormularioService.delete("form-1", "user-1");
+
+            expect(transactionMock).toHaveBeenCalledTimes(1);
+            // a transação inclui 4 operações: checklist, measurement, photo, formulario
+            const ops = transactionMock.mock.calls[0][0];
+            expect(Array.isArray(ops)).toBe(true);
+            expect(ops.length).toBe(4);
+            expect(result.id).toBe("form-1");
+        });
+
+        it("deve lançar 403 quando usuário não é dono", async () => {
+            formMock.findUnique.mockResolvedValue({ ...formularioStub, photos: [] });
+
+            await expect(
+                FormularioService.delete("form-1", "outro-user")
+            ).rejects.toMatchObject({ status: 403 });
+            expect(transactionMock).not.toHaveBeenCalled();
+        });
+
+        it("deve lançar 404 quando não encontrado", async () => {
+            formMock.findUnique.mockResolvedValue(null);
+
+            await expect(
+                FormularioService.delete("nope", "user-1")
+            ).rejects.toMatchObject({ status: 404 });
+        });
+
+        it("deve lançar 400 quando id vazio", async () => {
+            await expect(
+                FormularioService.delete("", "user-1")
             ).rejects.toMatchObject({ status: 400 });
         });
     });

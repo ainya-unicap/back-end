@@ -7,7 +7,10 @@ const institutionRouter = Router();
 // Público: a tela de cadastro precisa listar as instituições antes do login.
 institutionRouter.get("/", InstitutionController.getAll);
 
-// Protegido: só usuário autenticado pode criar nova instituição.
+// Protegidos: precisam de Bearer accessToken
+institutionRouter.get("/:id", requireAuth, InstitutionController.findById);
 institutionRouter.post("/", requireAuth, InstitutionController.create);
+institutionRouter.put("/:id", requireAuth, InstitutionController.update);
+institutionRouter.delete("/:id", requireAuth, InstitutionController.delete);
 
 export default institutionRouter;

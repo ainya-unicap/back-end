@@ -166,6 +166,19 @@ export class RelatorioService {
         });
     }
 
+    // Remove o relatório — só o dono e só em RASCUNHO.
+    // Submetido/Corrigido não pode apagar pra preservar histórico acadêmico.
+    static async delete(id: string, userId: string) {
+        const relatorio = await this.assertOwnership(id, userId);
+        if (relatorio.status !== "RASCUNHO") {
+            throw new HttpError(
+                "Não é possível excluir um relatório já submetido ou corrigido",
+                400
+            );
+        }
+        return prisma.relatorio.delete({ where: { id } });
+    }
+
     // Carrega o relatório e garante que pertence ao usuário autenticado.
     // 403 se não for dono, 404 se não existir.
     private static async assertOwnership(id: string, userId: string) {

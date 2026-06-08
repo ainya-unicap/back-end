@@ -222,4 +222,31 @@ export class FormularioService {
 
         return formulario;
     }
+
+    // Remove o formulário e tudo que depende dele (checklist, measurements, photos).
+    // Só o dono pode deletar.
+    static async delete(id: string, userId: string) {
+        if (!id) throw new HttpError("id é obrigatório", 400);
+
+        const formulario = await prisma.formulario.findUnique({
+            where: { id },
+            include: { photos: true },
+        });
+
+        if (!formulario) throw new HttpError("Formulário não encontrado", 404);
+        if (formulario.user_id !== userId) {
+            throw new HttpError("Você só pode deletar os próprios formulários", 403);
+        }
+
+        // Apaga filhos em transação para manter integridade.
+        // (Sem onDelete cascade no schema, fazemos manual.)
+        await prisma.$transaction([
+            prisma.checklist.deleteMany({ where: { form_id: id } }),
+            prisma.measurement.deleteMany({ where: { form_id: id } }),
+            prisma.photo.deleteMany({ where: { form_id: id } }),
+            prisma.formulario.delete({ where: { id } }),
+        ]);
+
+        return formulario;
+    }
 }

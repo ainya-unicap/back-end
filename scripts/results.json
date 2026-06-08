@@ -1,0 +1,2010 @@
+{
+  "state": {
+    "userId": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMzZiZGJlNC1iYjIxLTQ0ZGYtODNmNS0zNjBlNDVmZDQ0M2MiLCJpYXQiOjE3Nzk2MjkxNDgsImV4cCI6MTc3OTYzMDA0OH0.XgTdkg9sTY0W2q8ym-Z0PmVQDjgegy3v-83d8ETw7L0",
+    "refreshToken": "56aefee39ef574bc5915e67353422f2378219e52663259fe2944bf569c6d2fd9f0d9935d56f170bb",
+    "plantId": "pf-037",
+    "canteiroId": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+    "templateId": "a47d8724-8aaf-418a-ad13-35627d638120",
+    "listaId": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+    "formularioId": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+    "checklistId": "789e913f-26fb-40ad-ab75-5295e1e0fe6d",
+    "measurementId": "c6605e54-4840-4c9f-9548-013655c24dad",
+    "photoId": "bb1d03f8-3016-44a7-8e09-d9d2bfb3ac88",
+    "relatorioId": "80324620-a166-49fb-9c7c-73e6fa5ac307"
+  },
+  "results": [
+    {
+      "step": "health",
+      "method": "GET",
+      "url": "http://localhost:3000/api/health",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "status": "ok",
+        "uptime": 20.4928122,
+        "timestamp": "2026-05-24T13:25:47.043Z",
+        "environment": "development"
+      }
+    },
+    {
+      "step": "institutions.list",
+      "method": "GET",
+      "url": "http://localhost:3000/api/institutions",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": [
+        {
+          "id": "115b6790-6671-481f-a560-63bf1d78822b",
+          "name": "Instituição Teste 1779627677055",
+          "createdAt": "2026-05-24T13:01:17.082Z",
+          "updatedAt": "2026-05-24T13:01:17.082Z"
+        },
+        {
+          "id": "b5914adf-81a2-41ca-a8d2-374ec624ad0d",
+          "name": "Instituição Teste 1779627742169",
+          "createdAt": "2026-05-24T13:02:22.190Z",
+          "updatedAt": "2026-05-24T13:02:22.190Z"
+        },
+        {
+          "id": "b7c38b26-7b9b-4afa-9e2c-b16b377b9cb4",
+          "name": "Instituição Teste 1779627783334",
+          "createdAt": "2026-05-24T13:03:03.336Z",
+          "updatedAt": "2026-05-24T13:03:03.336Z"
+        },
+        {
+          "id": "uuid-instituicao-001",
+          "name": "UFRPE - Departamento de Zootecnia",
+          "createdAt": "2026-05-24T12:00:31.984Z",
+          "updatedAt": "2026-05-24T13:11:12.048Z"
+        },
+        {
+          "id": "d2734a60-8207-40e5-81c8-3c04e0ae110a",
+          "name": "Instituição Teste 1779628624635",
+          "createdAt": "2026-05-24T13:17:04.657Z",
+          "updatedAt": "2026-05-24T13:17:04.657Z"
+        }
+      ]
+    },
+    {
+      "step": "institutions.create",
+      "method": "POST",
+      "url": "http://localhost:3000/api/institutions",
+      "body": {
+        "name": "Instituição Teste 1779629148168"
+      },
+      "status": 201,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "message": "created successfully"
+      }
+    },
+    {
+      "step": "users.create",
+      "method": "POST",
+      "url": "http://localhost:3000/api/users",
+      "body": {
+        "name": "Aluno Teste",
+        "email": "teste1779629148282@email.com",
+        "password": "senha123456",
+        "role": "aluno"
+      },
+      "status": 201,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "message": "created successfully"
+      }
+    },
+    {
+      "step": "users.list",
+      "method": "GET",
+      "url": "http://localhost:3000/api/users",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": [
+        {
+          "id": "131c4f61-962a-49e3-9478-ea39a693dd3a",
+          "name": "Aluno Teste Renomeado",
+          "email": "teste1779627677174@email.com",
+          "password": "$argon2id$v=19$m=65536,t=3,p=4$GadGJD2jlLwz7EwqSHhE0g$t6D32gEUe+VM3ola8iFTL6FI0P65fGgQuxSp9G2zgEw",
+          "role": "aluno",
+          "institution_id": null,
+          "createdAt": "2026-05-24T13:01:17.280Z",
+          "updatedAt": "2026-05-24T13:01:17.725Z"
+        },
+        {
+          "id": "6ac96325-10bd-49cd-81ff-7637d9a44d6d",
+          "name": "Aluno Teste Renomeado",
+          "email": "teste1779627742284@email.com",
+          "password": "$argon2id$v=19$m=65536,t=3,p=4$k/KQ9+7v2MfYKI5l4k/klg$2+FhMxkjol3Ai2UsvV0bH2PnXJp/v1FwX/OpJOc8VuU",
+          "role": "aluno",
+          "institution_id": null,
+          "createdAt": "2026-05-24T13:02:22.382Z",
+          "updatedAt": "2026-05-24T13:02:22.878Z"
+        },
+        {
+          "id": "dc3ffedd-11b8-46d9-bdd3-6f2ccbe1a829",
+          "name": "Aluno Teste Renomeado",
+          "email": "teste1779627783423@email.com",
+          "password": "$argon2id$v=19$m=65536,t=3,p=4$FCmAYEzAXlzk0tML/USwQg$9mKZOdWrdlSIJ7rLQZu3F76wY+FklVmKY4REsi6H2U8",
+          "role": "aluno",
+          "institution_id": null,
+          "createdAt": "2026-05-24T13:03:03.513Z",
+          "updatedAt": "2026-05-24T13:03:03.991Z"
+        },
+        {
+          "id": "69f98331-52c6-40ec-b426-430369f99b52",
+          "name": "Aluno Teste Renomeado",
+          "email": "teste1779628624738@email.com",
+          "password": "$argon2id$v=19$m=65536,t=3,p=4$n25T0AYgPPz2as5ByyqPUA$H/94fke+7AtfDXbRJ1b1rVg0GixZ4EZDdo+kRmyxuBg",
+          "role": "aluno",
+          "institution_id": null,
+          "createdAt": "2026-05-24T13:17:04.831Z",
+          "updatedAt": "2026-05-24T13:17:05.283Z"
+        },
+        {
+          "id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+          "name": "Aluno Teste",
+          "email": "teste1779629148282@email.com",
+          "password": "$argon2id$v=19$m=65536,t=3,p=4$MAQDqiUrGYbIf/vX0a+kAg$dfO3my3XCbyRbeLbU4zwBmF549O6zmhyY24dF34r1JE",
+          "role": "aluno",
+          "institution_id": null,
+          "createdAt": "2026-05-24T13:25:48.380Z",
+          "updatedAt": "2026-05-24T13:25:48.380Z"
+        }
+      ]
+    },
+    {
+      "step": "users.login",
+      "method": "POST",
+      "url": "http://localhost:3000/api/users/login",
+      "body": {
+        "email": "teste1779629148282@email.com",
+        "password": "senha123456"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMzZiZGJlNC1iYjIxLTQ0ZGYtODNmNS0zNjBlNDVmZDQ0M2MiLCJpYXQiOjE3Nzk2MjkxNDgsImV4cCI6MTc3OTYzMDA0OH0.XgTdkg9sTY0W2q8ym-Z0PmVQDjgegy3v-83d8ETw7L0",
+        "refreshToken": "d860a500491816d3e46087771413edae3263accaab4032cb79b252381731ac345215496f599cb105"
+      }
+    },
+    {
+      "step": "users.findById",
+      "method": "GET",
+      "url": "http://localhost:3000/api/users/a36bdbe4-bb21-44df-83f5-360e45fd443c",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "name": "Aluno Teste",
+        "email": "teste1779629148282@email.com",
+        "role": "aluno",
+        "institution_id": null,
+        "createdAt": "2026-05-24T13:25:48.380Z",
+        "updatedAt": "2026-05-24T13:25:48.380Z",
+        "institution": null
+      }
+    },
+    {
+      "step": "users.updateProfile",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/users/a36bdbe4-bb21-44df-83f5-360e45fd443c/profile",
+      "body": {
+        "name": "Aluno Teste Renomeado"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "name": "Aluno Teste Renomeado",
+        "email": "teste1779629148282@email.com",
+        "role": "aluno",
+        "institution_id": null
+      }
+    },
+    {
+      "step": "users.refresh",
+      "method": "POST",
+      "url": "http://localhost:3000/api/users/refresh",
+      "body": {
+        "refreshToken": "d860a500491816d3e46087771413edae3263accaab4032cb79b252381731ac345215496f599cb105"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMzZiZGJlNC1iYjIxLTQ0ZGYtODNmNS0zNjBlNDVmZDQ0M2MiLCJpYXQiOjE3Nzk2MjkxNDksImV4cCI6MTc3OTYzMDA0OX0.mg9DvwRjTh9q_Y-npaDgQDKXx1p55xvJDz7JkKEBHZA",
+        "refreshToken": "56aefee39ef574bc5915e67353422f2378219e52663259fe2944bf569c6d2fd9f0d9935d56f170bb"
+      }
+    },
+    {
+      "step": "plantas.list",
+      "method": "GET",
+      "url": "http://localhost:3000/api/plantas-forrageiras",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": [
+        {
+          "id": "pf-037",
+          "name": "Amendoim Forrageiro",
+          "category": "LEGUMINOSA_HERBACEA",
+          "description": "Arachis pintoi. Leguminosa rasteira perene, alta tolerância ao pisoteio, excelente para consorciação.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-033",
+          "name": "Andropogon",
+          "category": "GRAMINEA_PORTE_BAIXO",
+          "description": "Andropogon gayanus cv. Planaltina. Gramínea perene, adaptada ao cerrado e semiárido, boa produção de feno.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-050",
+          "name": "Aruana",
+          "category": "GRAMINEA_PORTE_BAIXO",
+          "description": "Panicum maximum cv. Aruana. Gramínea de porte baixo-médio, indicada para pastejo com pequenos ruminantes.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-034",
+          "name": "BRS Capiaçu",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Pennisetum purpureum cv. BRS Capiaçu. Capim-elefante de altíssima produção de biomassa, indicado para corte e silagem.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-055",
+          "name": "BRS Kurumi",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Pennisetum purpureum cv. BRS Kurumi. Capim-elefante anão de alta qualidade nutricional e relação folha/colmo.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-030",
+          "name": "BRS Piatã",
+          "category": "GRAMINEA_PORTE_MEDIO",
+          "description": "Urochloa brizantha cv. BRS Piatã. Gramínea de porte médio, tolerante ao estresse hídrico e solos bem drenados.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-056",
+          "name": "BRS Quênia",
+          "category": "GRAMINEA_PORTE_BAIXO",
+          "description": "Panicum maximum cv. BRS Quênia. Gramínea de porte médio-baixo, alta densidade de perfilhos, boa para pastejo.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-051",
+          "name": "Brachiaria decumbens",
+          "category": "GRAMINEA_PORTE_MEDIO",
+          "description": "Urochloa decumbens. Gramínea perene de porte médio, muito difundida no Brasil, boa cobertura do solo.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-024",
+          "name": "Brachiaria ruziziensis",
+          "category": "GRAMINEA_PORTE_MEDIO",
+          "description": "Urochloa ruziziensis. Gramínea de porte médio, indicada para integração lavoura-pecuária, boa produção de palhada.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-008",
+          "name": "Cactáceas nativas",
+          "category": "CACTACEA",
+          "description": "Conjunto de cactáceas nativas da Caatinga com potencial forrageiro. Adaptadas ao semiárido.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-012",
+          "name": "Calopogônio",
+          "category": "LEGUMINOSA_HERBACEA",
+          "description": "Leguminosa rasteira e trepadeira, excelente cobertura do solo e fixadora de nitrogênio. Boa tolerância à sombra.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-025",
+          "name": "Camelo",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Cultivar de capim-elefante adaptado a regiões semiáridas, porte elevado e boa resistência ao déficit hídrico.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-027",
+          "name": "Cana-de-açúcar",
+          "category": "CULTURA_ANUAL",
+          "description": "Saccharum officinarum. Cultura perene de alta produção de biomassa, muito utilizada na alimentação animal no período seco.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-057",
+          "name": "Capim Guatemala",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Tripsacum laxum. Gramínea perene de porte alto, boa adaptação a solos úmidos e sombreados.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-041",
+          "name": "Capim Mombaça",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Panicum maximum cv. Mombaça. Gramínea de porte muito alto, alta produção de forragem, exige solos férteis.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-040",
+          "name": "Capim Tanzânia",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Panicum maximum cv. Tanzânia. Gramínea de porte alto, alta produção de folhas, indicada para pastejo rotativo.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-023",
+          "name": "Capim buffel",
+          "category": "GRAMINEA_PORTE_MEDIO",
+          "description": "Cenchrus ciliaris. Gramínea altamente tolerante à seca, muito utilizada no semiárido nordestino.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-022",
+          "name": "Capim corrente",
+          "category": "GRAMINEA_PORTE_BAIXO",
+          "description": "Gramínea nativa de porte baixo, boa cobertura do solo em regiões semiáridas.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-049",
+          "name": "Capim de planta",
+          "category": "GRAMINEA_PORTE_BAIXO",
+          "description": "Gramínea nativa de ocorrência natural, usada como forrageira extensiva em regiões semiáridas.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-021",
+          "name": "Capim gordura",
+          "category": "GRAMINEA_PORTE_MEDIO",
+          "description": "Melinis minutiflora. Gramínea perene, boa adaptação ao cerrado, porém invasora em algumas regiões.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-044",
+          "name": "Capim-elefante cv. IRI-381",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Pennisetum purpureum cv. IRI-381. Cultivar de capim-elefante com boa adaptação ao clima tropical úmido.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-043",
+          "name": "Capim-elefante cv. Merker",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Pennisetum purpureum cv. Merker. Cultivar clássico de capim-elefante, porte alto, boa produção de biomassa.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-042",
+          "name": "Capim-elefante cv. Mott",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Pennisetum purpureum cv. Mott. Capim-elefante anão, alta relação folha/colmo, indicado para pastejo direto.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-045",
+          "name": "Capim-elefante cv. Roxo",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Pennisetum purpureum cv. Roxo. Cultivar de capim-elefante com coloração arroxeada, porte alto.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-015",
+          "name": "Centrosema",
+          "category": "LEGUMINOSA_HERBACEA",
+          "description": "Leguminosa herbácea perene, tolerante à seca e solos ácidos. Boa associação com gramíneas tropicais.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-003",
+          "name": "Cunhã",
+          "category": "LEGUMINOSA_HERBACEA",
+          "description": "Leguminosa herbácea trepadeira, de boa palatabilidade e valor nutritivo. Usada como forrageira e cobertura do solo.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-017",
+          "name": "Estilosantes cv. Campo Grande",
+          "category": "LEGUMINOSA_HERBACEA",
+          "description": "Leguminosa herbácea perene, resistente à antracnose, indicada para consorciação com gramíneas.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-036",
+          "name": "Feijão de rola",
+          "category": "LEGUMINOSA_HERBACEA",
+          "description": "Vigna unguiculata. Leguminosa anual de ciclo curto, tolerante à seca, usada como forragem e alimentação humana.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-029",
+          "name": "Girassol",
+          "category": "OLEAGINOSA_FORRAGEIRA",
+          "description": "Helianthus annuus. Cultura anual usada para forragem, silagem e produção de grãos. Alta resposta à adubação.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-001",
+          "name": "Gliricídia",
+          "category": "LEGUMINOSA_ARBUSTIVA",
+          "description": "Leguminosa arbórea de múltiplo uso, fixadora de nitrogênio, tolerante à seca. Amplamente utilizada em sistemas silvipastoris no Nordeste.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-018",
+          "name": "Guandu",
+          "category": "LEGUMINOSA_ARBUSTIVA",
+          "description": "Cajanus cajan. Leguminosa arbustiva anual ou perene, alto valor proteico, resistente à seca.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-035",
+          "name": "Guandu",
+          "category": "LEGUMINOSA_ARBUSTIVA",
+          "description": "Cajanus cajan. Segunda ocorrência no croqui (canteiro 31-40). Leguminosa arbustiva de alto valor proteico.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-046",
+          "name": "Híbrido HV-241",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Híbrido de capim-elefante com milheto, alta produção de biomassa e boa qualidade nutricional.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-013",
+          "name": "Jureminha",
+          "category": "LEGUMINOSA_ARBUSTIVA",
+          "description": "Leguminosa nativa da Caatinga, arbustiva, boa palatabilidade para caprinos e ovinos. Tolerante à seca.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-014",
+          "name": "Kudzu",
+          "category": "LEGUMINOSA_HERBACEA",
+          "description": "Pueraria phaseoloides. Leguminosa trepadeira tropical, boa produção de massa verde e valor nutritivo.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-002",
+          "name": "Leucena",
+          "category": "LEGUMINOSA_ARBUSTIVA",
+          "description": "Leguminosa arbustiva de alto valor proteico, fixadora de nitrogênio. Indicada para consórcio com gramíneas e produção de feno.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-028",
+          "name": "Massai",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Panicum maximum cv. Massai. Gramínea de porte médio-alto, tolerante à seca e solos ácidos, boa rebrota.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-039",
+          "name": "Milheto",
+          "category": "CULTURA_ANUAL",
+          "description": "Pennisetum glaucum. Gramínea anual de rápido crescimento, tolerante à seca, usada para pastejo e cobertura do solo.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-038",
+          "name": "Milho CMS-36",
+          "category": "CULTURA_ANUAL",
+          "description": "Cultivar de milho composto melhorado, indicado para regiões semiáridas, produção de silagem e forragem.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-020",
+          "name": "Milho São José",
+          "category": "CULTURA_ANUAL",
+          "description": "Cultivar de milho para silagem e forragem verde. Alta produção de biomassa.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-019",
+          "name": "Mucuna",
+          "category": "LEGUMINOSA_HERBACEA",
+          "description": "Mucuna pruriens. Leguminosa anual trepadeira, excelente adubação verde e cobertura do solo.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-004",
+          "name": "Orelha de onça",
+          "category": "LEGUMINOSA_HERBACEA",
+          "description": "Leguminosa herbácea rasteira, tolerante à seca e solos pobres. Boa cobertura do solo e fixação de nitrogênio.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-005",
+          "name": "Palma Gigante",
+          "category": "CACTACEA",
+          "description": "Opuntia ficus-indica. Cactácea de grande porte, alta produção de biomassa. Sensível à cochonilha-do-carmim.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-007",
+          "name": "Palma IPA Sertânia",
+          "category": "CACTACEA",
+          "description": "Nopalea sp. Clone selecionado pelo IPA, resistente à cochonilha-do-carmim, hábito de crescimento semiaberto.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-006",
+          "name": "Palma Miúda",
+          "category": "CACTACEA",
+          "description": "Nopalea cochenillifera. Cactácea de porte médio, resistente à cochonilha-do-carmim. Muito utilizada no semiárido nordestino.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-010",
+          "name": "Palma Orelha Africana",
+          "category": "CACTACEA",
+          "description": "Opuntia sp. de origem africana, resistente à cochonilha-do-carmim, boa produtividade em condições de sequeiro.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-009",
+          "name": "Palma Orelha Mexicana",
+          "category": "CACTACEA",
+          "description": "Opuntia stricta. Resistente à cochonilha-do-carmim, cladódios de formato alongado.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-053",
+          "name": "Pangolão",
+          "category": "GRAMINEA_PORTE_BAIXO",
+          "description": "Digitaria eriantha. Gramínea perene de porte médio, boa produção de feno e tolerância à seca.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-011",
+          "name": "Pornunça",
+          "category": "LEGUMINOSA_ARBUSTIVA",
+          "description": "Híbrido de mandioca brava com mandioca mansa. Tolerante à seca, muito utilizado no semiárido como forrageira arbustiva.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-026",
+          "name": "Soja",
+          "category": "OLEAGINOSA_FORRAGEIRA",
+          "description": "Glycine max. Leguminosa anual de alto valor proteico, usada como forrageira e para produção de grãos.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-060",
+          "name": "Sorgo 2502",
+          "category": "CULTURA_ANUAL",
+          "description": "Sorghum bicolor cultivar 2502. Sorgo forrageiro de alta produção, indicado para silagem e corte.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-032",
+          "name": "Sorgo SF 15",
+          "category": "CULTURA_ANUAL",
+          "description": "Sorghum bicolor cultivar forrageiro. Alta produção de biomassa, indicado para silagem.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-031",
+          "name": "Sudão",
+          "category": "CULTURA_ANUAL",
+          "description": "Sorghum sudanense. Gramínea anual de rápido crescimento, usada para pastejo e produção de feno.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-054",
+          "name": "Swazi",
+          "category": "GRAMINEA_PORTE_BAIXO",
+          "description": "Digitaria swazilandensis. Gramínea perene de porte baixo, boa tolerância ao pastejo intensivo.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-058",
+          "name": "Taiwan A-146 2.37",
+          "category": "GRAMINEA_PORTE_ALTO",
+          "description": "Híbrido de capim-elefante com alta produção de biomassa, colmos grossos e folhas largas.",
+          "semester_focus": "PRIMEIRO"
+        },
+        {
+          "id": "pf-016",
+          "name": "Tifton",
+          "category": "GRAMINEA_PORTE_BAIXO",
+          "description": "Cynodon spp. cv. Tifton 85. Gramínea rasteira de alto rendimento, indicada para feno e pastejo intensivo.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-059",
+          "name": "Xaraés + Amendoim forrageiro",
+          "category": "GRAMINEA_PORTE_MEDIO",
+          "description": "Consórcio de Urochloa brizantha cv. Xaraés com Arachis pintoi. Avaliação de sistema consorciado.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-047",
+          "name": "Xaraés c/ adubação orgânica",
+          "category": "GRAMINEA_PORTE_MEDIO",
+          "description": "Urochloa brizantha cv. Xaraés com tratamento de adubação orgânica. Avaliação comparativa de manejo.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-052",
+          "name": "Xaraés c/ adubação química",
+          "category": "GRAMINEA_PORTE_MEDIO",
+          "description": "Urochloa brizantha cv. Xaraés com tratamento de adubação química. Avaliação comparativa de manejo.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-048",
+          "name": "Xaraés s/ adubação",
+          "category": "GRAMINEA_PORTE_MEDIO",
+          "description": "Urochloa brizantha cv. Xaraés sem adubação. Controle para avaliação comparativa de manejo.",
+          "semester_focus": "SEGUNDO"
+        }
+      ]
+    },
+    {
+      "step": "plantas.filterCategory",
+      "method": "GET",
+      "url": "http://localhost:3000/api/plantas-forrageiras?category=CACTACEA",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": [
+        {
+          "id": "pf-008",
+          "name": "Cactáceas nativas",
+          "category": "CACTACEA",
+          "description": "Conjunto de cactáceas nativas da Caatinga com potencial forrageiro. Adaptadas ao semiárido.",
+          "semester_focus": "SEGUNDO"
+        },
+        {
+          "id": "pf-005",
+          "name": "Palma Gigante",
+          "category": "CACTACEA",
+          "description": "Opuntia ficus-indica. Cactácea de grande porte, alta produção de biomassa. Sensível à cochonilha-do-carmim.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-007",
+          "name": "Palma IPA Sertânia",
+          "category": "CACTACEA",
+          "description": "Nopalea sp. Clone selecionado pelo IPA, resistente à cochonilha-do-carmim, hábito de crescimento semiaberto.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-006",
+          "name": "Palma Miúda",
+          "category": "CACTACEA",
+          "description": "Nopalea cochenillifera. Cactácea de porte médio, resistente à cochonilha-do-carmim. Muito utilizada no semiárido nordestino.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-010",
+          "name": "Palma Orelha Africana",
+          "category": "CACTACEA",
+          "description": "Opuntia sp. de origem africana, resistente à cochonilha-do-carmim, boa produtividade em condições de sequeiro.",
+          "semester_focus": "AMBOS"
+        },
+        {
+          "id": "pf-009",
+          "name": "Palma Orelha Mexicana",
+          "category": "CACTACEA",
+          "description": "Opuntia stricta. Resistente à cochonilha-do-carmim, cladódios de formato alongado.",
+          "semester_focus": "AMBOS"
+        }
+      ]
+    },
+    {
+      "step": "plantas.findById",
+      "method": "GET",
+      "url": "http://localhost:3000/api/plantas-forrageiras/pf-037",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "pf-037",
+        "name": "Amendoim Forrageiro",
+        "category": "LEGUMINOSA_HERBACEA",
+        "description": "Arachis pintoi. Leguminosa rasteira perene, alta tolerância ao pisoteio, excelente para consorciação.",
+        "semester_focus": "AMBOS",
+        "createdAt": "2026-05-24T12:00:34.283Z",
+        "updatedAt": "2026-05-24T13:11:15.822Z"
+      }
+    },
+    {
+      "step": "canteiros.create",
+      "method": "POST",
+      "url": "http://localhost:3000/api/canteiros",
+      "body": {
+        "plant_id": "pf-037",
+        "name": "Canteiro Teste 1779629148282",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c"
+      },
+      "status": 201,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "plant_id": "pf-037",
+        "name": "Canteiro Teste 1779629148282",
+        "createdAt": "2026-05-24T13:25:49.222Z",
+        "updatedAt": "2026-05-24T13:25:49.222Z"
+      }
+    },
+    {
+      "step": "canteiros.findByUser",
+      "method": "GET",
+      "url": "http://localhost:3000/api/canteiros/user/a36bdbe4-bb21-44df-83f5-360e45fd443c",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": [
+        {
+          "id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+          "plant_id": "pf-037",
+          "name": "Canteiro Teste 1779629148282",
+          "createdAt": "2026-05-24T13:25:49.222Z",
+          "updatedAt": "2026-05-24T13:25:49.222Z",
+          "plant": {
+            "id": "pf-037",
+            "name": "Amendoim Forrageiro",
+            "category": "LEGUMINOSA_HERBACEA"
+          },
+          "listaDeFormularios": []
+        }
+      ]
+    },
+    {
+      "step": "canteiros.findListas",
+      "method": "GET",
+      "url": "http://localhost:3000/api/canteiros/2107fe5b-9e52-4fd2-97e6-a677902f384c/listas",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": []
+    },
+    {
+      "step": "userCanteiro.findByUser",
+      "method": "GET",
+      "url": "http://localhost:3000/api/user-canteiros/user/a36bdbe4-bb21-44df-83f5-360e45fd443c",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": [
+        {
+          "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+          "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+          "created_at": "2026-05-24T13:25:49.265Z",
+          "updated_at": "2026-05-24T13:25:49.265Z",
+          "canteiro": {
+            "id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+            "plant_id": "pf-037",
+            "name": "Canteiro Teste 1779629148282",
+            "createdAt": "2026-05-24T13:25:49.222Z",
+            "updatedAt": "2026-05-24T13:25:49.222Z",
+            "plant": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "step": "userCanteiro.findByCanteiro",
+      "method": "GET",
+      "url": "http://localhost:3000/api/user-canteiros/canteiro/2107fe5b-9e52-4fd2-97e6-a677902f384c",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": [
+        {
+          "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+          "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+          "created_at": "2026-05-24T13:25:49.265Z",
+          "updated_at": "2026-05-24T13:25:49.265Z",
+          "user": {
+            "id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+            "name": "Aluno Teste Renomeado",
+            "email": "teste1779629148282@email.com",
+            "role": "aluno"
+          }
+        }
+      ]
+    },
+    {
+      "step": "userCanteiro.createDuplicate",
+      "method": "POST",
+      "url": "http://localhost:3000/api/user-canteiros",
+      "body": {
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c"
+      },
+      "status": 409,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "error": "Vínculo já existe"
+      }
+    },
+    {
+      "step": "planttemplates.byPlant",
+      "method": "GET",
+      "url": "http://localhost:3000/api/plant-templates/plant/pf-037",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": [
+          {
+            "id": "a47d8724-8aaf-418a-ad13-35627d638120",
+            "plant_id": "pf-037",
+            "field_name": "Comprimento dos ramos/hastes",
+            "unit": "cm",
+            "createdAt": "2026-05-24T12:01:17.886Z",
+            "updatedAt": "2026-05-24T12:01:17.886Z",
+            "planta_forrageira": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          },
+          {
+            "id": "c8c07674-4aa9-4393-b094-9e598bc5c450",
+            "plant_id": "pf-037",
+            "field_name": "Cobertura do solo",
+            "unit": "%",
+            "createdAt": "2026-05-24T12:01:17.943Z",
+            "updatedAt": "2026-05-24T12:01:17.943Z",
+            "planta_forrageira": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          },
+          {
+            "id": "852562af-abad-468e-8b03-7e62d450e1a3",
+            "plant_id": "pf-037",
+            "field_name": "Número de nós com folhas",
+            "unit": "unidade",
+            "createdAt": "2026-05-24T12:01:17.999Z",
+            "updatedAt": "2026-05-24T12:01:17.999Z",
+            "planta_forrageira": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          },
+          {
+            "id": "5bcd639f-5044-4f18-8108-d4432c79ec46",
+            "plant_id": "pf-037",
+            "field_name": "Número de ramos laterais",
+            "unit": "unidade",
+            "createdAt": "2026-05-24T12:01:18.054Z",
+            "updatedAt": "2026-05-24T12:01:18.054Z",
+            "planta_forrageira": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          },
+          {
+            "id": "e59a9dab-24ef-49f6-977c-ad2c5074291f",
+            "plant_id": "pf-037",
+            "field_name": "Estádio fenológico",
+            "unit": "vegetativo/florescimento/frutificação",
+            "createdAt": "2026-05-24T12:01:18.112Z",
+            "updatedAt": "2026-05-24T12:01:18.112Z",
+            "planta_forrageira": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          },
+          {
+            "id": "1c587241-771d-4c2e-8e40-a21489f6021b",
+            "plant_id": "pf-037",
+            "field_name": "Comprimento dos ramos/hastes",
+            "unit": "cm",
+            "createdAt": "2026-05-24T13:11:33.538Z",
+            "updatedAt": "2026-05-24T13:11:33.538Z",
+            "planta_forrageira": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          },
+          {
+            "id": "8c225b1e-08e2-49cb-8d59-7dcacdb8e751",
+            "plant_id": "pf-037",
+            "field_name": "Cobertura do solo",
+            "unit": "%",
+            "createdAt": "2026-05-24T13:11:33.595Z",
+            "updatedAt": "2026-05-24T13:11:33.595Z",
+            "planta_forrageira": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          },
+          {
+            "id": "a47918f5-9917-450e-a6e4-8dbb52b291e2",
+            "plant_id": "pf-037",
+            "field_name": "Número de nós com folhas",
+            "unit": "unidade",
+            "createdAt": "2026-05-24T13:11:33.655Z",
+            "updatedAt": "2026-05-24T13:11:33.655Z",
+            "planta_forrageira": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          },
+          {
+            "id": "8b386fc4-be27-4e12-89e2-d387fc284cf9",
+            "plant_id": "pf-037",
+            "field_name": "Número de ramos laterais",
+            "unit": "unidade",
+            "createdAt": "2026-05-24T13:11:33.718Z",
+            "updatedAt": "2026-05-24T13:11:33.718Z",
+            "planta_forrageira": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          },
+          {
+            "id": "ad9ae675-b5c6-4aaf-87e8-42c62dff3832",
+            "plant_id": "pf-037",
+            "field_name": "Estádio fenológico",
+            "unit": "vegetativo/florescimento/frutificação",
+            "createdAt": "2026-05-24T13:11:33.773Z",
+            "updatedAt": "2026-05-24T13:11:33.773Z",
+            "planta_forrageira": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA"
+            }
+          }
+        ],
+        "error": null,
+        "message": "Templates da planta encontrados com sucesso"
+      }
+    },
+    {
+      "step": "listas.create",
+      "method": "POST",
+      "url": "http://localhost:3000/api/listas-formularios",
+      "body": {
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "plant_id": "pf-037",
+        "created_by": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "name": "Lista Teste 1779629148282"
+      },
+      "status": 201,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "plant_id": "pf-037",
+        "created_by": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "name": "Lista Teste 1779629148282",
+        "createdAt": "2026-05-24T13:25:50.275Z",
+        "updatedAt": "2026-05-24T13:25:50.275Z",
+        "plant": {
+          "id": "pf-037",
+          "name": "Amendoim Forrageiro",
+          "category": "LEGUMINOSA_HERBACEA"
+        }
+      }
+    },
+    {
+      "step": "listas.byCanteiro",
+      "method": "GET",
+      "url": "http://localhost:3000/api/listas-formularios/canteiro/2107fe5b-9e52-4fd2-97e6-a677902f384c",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": [
+        {
+          "id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+          "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+          "plant_id": "pf-037",
+          "created_by": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+          "name": "Lista Teste 1779629148282",
+          "createdAt": "2026-05-24T13:25:50.275Z",
+          "updatedAt": "2026-05-24T13:25:50.275Z",
+          "plant": {
+            "id": "pf-037",
+            "name": "Amendoim Forrageiro",
+            "category": "LEGUMINOSA_HERBACEA"
+          },
+          "_count": {
+            "formularios": 0
+          }
+        }
+      ]
+    },
+    {
+      "step": "listas.findById",
+      "method": "GET",
+      "url": "http://localhost:3000/api/listas-formularios/f8dcba37-bfd6-4162-b09f-1a005b050983",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "plant_id": "pf-037",
+        "created_by": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "name": "Lista Teste 1779629148282",
+        "createdAt": "2026-05-24T13:25:50.275Z",
+        "updatedAt": "2026-05-24T13:25:50.275Z",
+        "plant": {
+          "id": "pf-037",
+          "name": "Amendoim Forrageiro",
+          "category": "LEGUMINOSA_HERBACEA"
+        },
+        "formularios": []
+      }
+    },
+    {
+      "step": "listas.formularios",
+      "method": "GET",
+      "url": "http://localhost:3000/api/listas-formularios/f8dcba37-bfd6-4162-b09f-1a005b050983/formularios",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": []
+    },
+    {
+      "step": "formularios.create",
+      "method": "POST",
+      "url": "http://localhost:3000/api/formularios",
+      "body": {
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "type": "SEMANAL",
+        "observations": "Teste"
+      },
+      "status": 201,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+          "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+          "type": "SEMANAL",
+          "started_at": "2026-05-24T13:25:50.617Z",
+          "ended_at": "2026-05-24T13:25:50.617Z",
+          "observations": "Teste",
+          "synced": false,
+          "createdAt": "2026-05-24T13:25:50.617Z",
+          "updatedAt": "2026-05-24T13:25:50.617Z"
+        },
+        "error": null,
+        "message": "Formulário criado com sucesso"
+      }
+    },
+    {
+      "step": "formularios.findByUser",
+      "method": "GET",
+      "url": "http://localhost:3000/api/formularios/user/a36bdbe4-bb21-44df-83f5-360e45fd443c",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": [
+          {
+            "id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+            "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+            "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+            "type": "SEMANAL",
+            "started_at": "2026-05-24T13:25:50.617Z",
+            "ended_at": "2026-05-24T13:25:50.617Z",
+            "observations": "Teste",
+            "synced": false,
+            "createdAt": "2026-05-24T13:25:50.617Z",
+            "updatedAt": "2026-05-24T13:25:50.617Z",
+            "list": {
+              "id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+              "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+              "plant_id": "pf-037",
+              "created_by": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+              "name": "Lista Teste 1779629148282",
+              "createdAt": "2026-05-24T13:25:50.275Z",
+              "updatedAt": "2026-05-24T13:25:50.275Z",
+              "plant": {
+                "id": "pf-037",
+                "name": "Amendoim Forrageiro",
+                "category": "LEGUMINOSA_HERBACEA",
+                "description": "Arachis pintoi. Leguminosa rasteira perene, alta tolerância ao pisoteio, excelente para consorciação.",
+                "semester_focus": "AMBOS",
+                "createdAt": "2026-05-24T12:00:34.283Z",
+                "updatedAt": "2026-05-24T13:11:15.822Z"
+              }
+            }
+          }
+        ],
+        "error": null,
+        "message": "Formulários encontrados com sucesso"
+      }
+    },
+    {
+      "step": "formularios.findById",
+      "method": "GET",
+      "url": "http://localhost:3000/api/formularios/c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+          "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+          "type": "SEMANAL",
+          "started_at": "2026-05-24T13:25:50.617Z",
+          "ended_at": "2026-05-24T13:25:50.617Z",
+          "observations": "Teste",
+          "synced": false,
+          "createdAt": "2026-05-24T13:25:50.617Z",
+          "updatedAt": "2026-05-24T13:25:50.617Z",
+          "list": {
+            "id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+            "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+            "plant_id": "pf-037",
+            "created_by": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+            "name": "Lista Teste 1779629148282",
+            "createdAt": "2026-05-24T13:25:50.275Z",
+            "updatedAt": "2026-05-24T13:25:50.275Z",
+            "plant": {
+              "id": "pf-037",
+              "name": "Amendoim Forrageiro",
+              "category": "LEGUMINOSA_HERBACEA",
+              "description": "Arachis pintoi. Leguminosa rasteira perene, alta tolerância ao pisoteio, excelente para consorciação.",
+              "semester_focus": "AMBOS",
+              "createdAt": "2026-05-24T12:00:34.283Z",
+              "updatedAt": "2026-05-24T13:11:15.822Z"
+            },
+            "canteiro": {
+              "id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+              "plant_id": "pf-037",
+              "name": "Canteiro Teste 1779629148282",
+              "createdAt": "2026-05-24T13:25:49.222Z",
+              "updatedAt": "2026-05-24T13:25:49.222Z"
+            }
+          },
+          "checklists": [],
+          "measurements": [],
+          "photos": []
+        },
+        "error": null,
+        "message": "Formulário encontrado com sucesso"
+      }
+    },
+    {
+      "step": "formularios.checklist",
+      "method": "GET",
+      "url": "http://localhost:3000/api/formularios/c861c153-ccd2-4dbe-994d-a75c7aadb4d6/checklist",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": []
+    },
+    {
+      "step": "formularios.measurements",
+      "method": "GET",
+      "url": "http://localhost:3000/api/formularios/c861c153-ccd2-4dbe-994d-a75c7aadb4d6/measurements",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": []
+    },
+    {
+      "step": "formularios.photos",
+      "method": "GET",
+      "url": "http://localhost:3000/api/formularios/c861c153-ccd2-4dbe-994d-a75c7aadb4d6/photos",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": []
+    },
+    {
+      "step": "formularios.update",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/formularios/c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+      "body": {
+        "observations": "Atualizado"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+          "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+          "type": "SEMANAL",
+          "started_at": "2026-05-24T13:25:50.617Z",
+          "ended_at": "2026-05-24T13:25:50.617Z",
+          "observations": "Atualizado",
+          "synced": false,
+          "createdAt": "2026-05-24T13:25:50.617Z",
+          "updatedAt": "2026-05-24T13:25:51.317Z"
+        },
+        "error": null,
+        "message": "Formulário atualizado com sucesso"
+      }
+    },
+    {
+      "step": "checklist.create",
+      "method": "POST",
+      "url": "http://localhost:3000/api/checklist",
+      "body": {
+        "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+        "template_id": "a47d8724-8aaf-418a-ad13-35627d638120",
+        "checked": false
+      },
+      "status": 201,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "789e913f-26fb-40ad-ab75-5295e1e0fe6d",
+          "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "template_id": "a47d8724-8aaf-418a-ad13-35627d638120",
+          "checked": false,
+          "createdAt": "2026-05-24T13:25:51.358Z",
+          "updatedAt": "2026-05-24T13:25:51.358Z"
+        },
+        "error": null,
+        "message": "Checklist criado com sucesso"
+      }
+    },
+    {
+      "step": "checklist.listByFormulario",
+      "method": "GET",
+      "url": "http://localhost:3000/api/checklist/formulario/c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": [
+          {
+            "id": "789e913f-26fb-40ad-ab75-5295e1e0fe6d",
+            "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+            "template_id": "a47d8724-8aaf-418a-ad13-35627d638120",
+            "checked": false,
+            "createdAt": "2026-05-24T13:25:51.358Z",
+            "updatedAt": "2026-05-24T13:25:51.358Z",
+            "template": {
+              "id": "a47d8724-8aaf-418a-ad13-35627d638120",
+              "field_name": "Comprimento dos ramos/hastes",
+              "unit": "cm"
+            }
+          }
+        ],
+        "error": null,
+        "message": "Checklist encontrado com sucesso"
+      }
+    },
+    {
+      "step": "checklist.update",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/checklist/789e913f-26fb-40ad-ab75-5295e1e0fe6d",
+      "body": {
+        "checked": true
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "789e913f-26fb-40ad-ab75-5295e1e0fe6d",
+          "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "template_id": "a47d8724-8aaf-418a-ad13-35627d638120",
+          "checked": true,
+          "createdAt": "2026-05-24T13:25:51.358Z",
+          "updatedAt": "2026-05-24T13:25:51.485Z"
+        },
+        "error": null,
+        "message": "Checklist atualizado com sucesso"
+      }
+    },
+    {
+      "step": "measurement.create",
+      "method": "POST",
+      "url": "http://localhost:3000/api/measurements",
+      "body": {
+        "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+        "template_id": "a47d8724-8aaf-418a-ad13-35627d638120",
+        "value": 42.5
+      },
+      "status": 201,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "c6605e54-4840-4c9f-9548-013655c24dad",
+          "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "template_id": "a47d8724-8aaf-418a-ad13-35627d638120",
+          "value": 42.5,
+          "createdAt": "2026-05-24T13:25:51.525Z",
+          "updatedAt": "2026-05-24T13:25:51.525Z"
+        },
+        "error": null,
+        "message": "Medição criada com sucesso"
+      }
+    },
+    {
+      "step": "measurement.listByFormulario",
+      "method": "GET",
+      "url": "http://localhost:3000/api/measurements/formulario/c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": [
+          {
+            "id": "c6605e54-4840-4c9f-9548-013655c24dad",
+            "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+            "template_id": "a47d8724-8aaf-418a-ad13-35627d638120",
+            "value": 42.5,
+            "createdAt": "2026-05-24T13:25:51.525Z",
+            "updatedAt": "2026-05-24T13:25:51.525Z",
+            "template": {
+              "id": "a47d8724-8aaf-418a-ad13-35627d638120",
+              "field_name": "Comprimento dos ramos/hastes",
+              "unit": "cm"
+            }
+          }
+        ],
+        "error": null,
+        "message": "Medições encontradas com sucesso"
+      }
+    },
+    {
+      "step": "measurement.update",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/measurements/c6605e54-4840-4c9f-9548-013655c24dad",
+      "body": {
+        "value": 100
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "c6605e54-4840-4c9f-9548-013655c24dad",
+          "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "template_id": "a47d8724-8aaf-418a-ad13-35627d638120",
+          "value": 100,
+          "createdAt": "2026-05-24T13:25:51.525Z",
+          "updatedAt": "2026-05-24T13:25:51.645Z"
+        },
+        "error": null,
+        "message": "Medição atualizada com sucesso"
+      }
+    },
+    {
+      "step": "photo.listByFormulario",
+      "method": "GET",
+      "url": "http://localhost:3000/api/photos/formulario/c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": [],
+        "error": null,
+        "message": "Fotos encontradas com sucesso"
+      }
+    },
+    {
+      "step": "photo.createByUrl",
+      "method": "POST",
+      "url": "http://localhost:3000/api/photos",
+      "body": {
+        "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+        "url": "/uploads/teste.jpg"
+      },
+      "status": 201,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "bb1d03f8-3016-44a7-8e09-d9d2bfb3ac88",
+          "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "url": "/uploads/teste.jpg",
+          "takenAt": "2026-05-24T13:25:51.727Z",
+          "updatedAt": "2026-05-24T13:25:51.727Z"
+        },
+        "error": null,
+        "message": "Foto criada com sucesso"
+      }
+    },
+    {
+      "step": "photo.delete",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/photos/bb1d03f8-3016-44a7-8e09-d9d2bfb3ac88",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "bb1d03f8-3016-44a7-8e09-d9d2bfb3ac88",
+          "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "url": "/uploads/teste.jpg",
+          "takenAt": "2026-05-24T13:25:51.727Z",
+          "updatedAt": "2026-05-24T13:25:51.727Z"
+        },
+        "error": null,
+        "message": "Foto removida com sucesso"
+      }
+    },
+    {
+      "step": "photo.uploadMultipart",
+      "method": "POST",
+      "url": "http://localhost:3000/api/formularios/c861c153-ccd2-4dbe-994d-a75c7aadb4d6/photos",
+      "status": 201,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "855bd329-44f9-43c0-963b-7045198b2447",
+          "form_id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "url": "/uploads/1779629151853-826596899.png",
+          "takenAt": "2026-05-24T13:25:51.855Z",
+          "updatedAt": "2026-05-24T13:25:51.855Z"
+        },
+        "error": null,
+        "message": "Foto enviada com sucesso"
+      }
+    },
+    {
+      "step": "formulario.sync",
+      "method": "POST",
+      "url": "http://localhost:3000/api/formularios/c861c153-ccd2-4dbe-994d-a75c7aadb4d6/sync",
+      "body": {
+        "formulario": {
+          "type": "SEMANAL",
+          "observations": "sincronizado offline",
+          "ended_at": "2026-05-24T13:25:51.894Z"
+        },
+        "checklist": [
+          {
+            "template_id": "a47d8724-8aaf-418a-ad13-35627d638120",
+            "checked": true
+          }
+        ],
+        "measurements": [
+          {
+            "template_id": "a47d8724-8aaf-418a-ad13-35627d638120",
+            "value": 77
+          }
+        ],
+        "photos": [
+          {
+            "url": "/uploads/sync.jpg"
+          }
+        ]
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+          "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+          "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+          "type": "SEMANAL",
+          "started_at": "2026-05-24T13:25:50.617Z",
+          "ended_at": "2026-05-24T13:25:51.894Z",
+          "observations": "sincronizado offline",
+          "synced": true,
+          "createdAt": "2026-05-24T13:25:50.617Z",
+          "updatedAt": "2026-05-24T13:25:51.933Z"
+        },
+        "error": null,
+        "message": "Formulário sincronizado com sucesso"
+      }
+    },
+    {
+      "step": "relatorio.generate",
+      "method": "POST",
+      "url": "http://localhost:3000/api/relatorios/generate",
+      "body": {
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983"
+      },
+      "status": 201,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "80324620-a166-49fb-9c7c-73e6fa5ac307",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "status": "RASCUNHO",
+        "introduction": "",
+        "objective": "Acompanhar e registrar o desenvolvimento de Amendoim Forrageiro ao longo do semestre, documentando medições semanais de altura, cobertura do solo e estádio fenológico.",
+        "development": "",
+        "final_thoughts": "",
+        "references": "",
+        "grade": 0,
+        "feedback": "",
+        "createdAt": "2026-05-24T13:25:52.236Z",
+        "updatedAt": "2026-05-24T13:25:52.236Z",
+        "submited_at": "2026-05-24T13:25:52.235Z"
+      }
+    },
+    {
+      "step": "relatorio.byUser",
+      "method": "GET",
+      "url": "http://localhost:3000/api/relatorios/user/a36bdbe4-bb21-44df-83f5-360e45fd443c",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": [
+        {
+          "id": "80324620-a166-49fb-9c7c-73e6fa5ac307",
+          "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+          "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+          "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+          "status": "RASCUNHO",
+          "introduction": "",
+          "objective": "Acompanhar e registrar o desenvolvimento de Amendoim Forrageiro ao longo do semestre, documentando medições semanais de altura, cobertura do solo e estádio fenológico.",
+          "development": "",
+          "final_thoughts": "",
+          "references": "",
+          "grade": 0,
+          "feedback": "",
+          "createdAt": "2026-05-24T13:25:52.236Z",
+          "updatedAt": "2026-05-24T13:25:52.236Z",
+          "submited_at": "2026-05-24T13:25:52.235Z",
+          "list": {
+            "id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+            "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+            "plant_id": "pf-037",
+            "created_by": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+            "name": "Lista Teste 1779629148282",
+            "createdAt": "2026-05-24T13:25:50.275Z",
+            "updatedAt": "2026-05-24T13:25:50.275Z",
+            "plant": {
+              "name": "Amendoim Forrageiro"
+            }
+          },
+          "canteiro": {
+            "id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+            "name": "Canteiro Teste 1779629148282"
+          }
+        }
+      ]
+    },
+    {
+      "step": "relatorio.findById",
+      "method": "GET",
+      "url": "http://localhost:3000/api/relatorios/80324620-a166-49fb-9c7c-73e6fa5ac307",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "80324620-a166-49fb-9c7c-73e6fa5ac307",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "status": "RASCUNHO",
+        "introduction": "",
+        "objective": "Acompanhar e registrar o desenvolvimento de Amendoim Forrageiro ao longo do semestre, documentando medições semanais de altura, cobertura do solo e estádio fenológico.",
+        "development": "",
+        "final_thoughts": "",
+        "references": "",
+        "grade": 0,
+        "feedback": "",
+        "createdAt": "2026-05-24T13:25:52.236Z",
+        "updatedAt": "2026-05-24T13:25:52.236Z",
+        "submited_at": "2026-05-24T13:25:52.235Z",
+        "list": {
+          "id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+          "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+          "plant_id": "pf-037",
+          "created_by": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+          "name": "Lista Teste 1779629148282",
+          "createdAt": "2026-05-24T13:25:50.275Z",
+          "updatedAt": "2026-05-24T13:25:50.275Z",
+          "plant": {
+            "id": "pf-037",
+            "name": "Amendoim Forrageiro",
+            "category": "LEGUMINOSA_HERBACEA",
+            "description": "Arachis pintoi. Leguminosa rasteira perene, alta tolerância ao pisoteio, excelente para consorciação.",
+            "semester_focus": "AMBOS",
+            "createdAt": "2026-05-24T12:00:34.283Z",
+            "updatedAt": "2026-05-24T13:11:15.822Z"
+          }
+        },
+        "canteiro": {
+          "id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+          "plant_id": "pf-037",
+          "name": "Canteiro Teste 1779629148282",
+          "createdAt": "2026-05-24T13:25:49.222Z",
+          "updatedAt": "2026-05-24T13:25:49.222Z"
+        }
+      }
+    },
+    {
+      "step": "relatorio.updateIntroduction",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/relatorios/80324620-a166-49fb-9c7c-73e6fa5ac307/introduction",
+      "body": {
+        "introduction": "intro"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "80324620-a166-49fb-9c7c-73e6fa5ac307",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "status": "RASCUNHO",
+        "introduction": "intro",
+        "objective": "Acompanhar e registrar o desenvolvimento de Amendoim Forrageiro ao longo do semestre, documentando medições semanais de altura, cobertura do solo e estádio fenológico.",
+        "development": "",
+        "final_thoughts": "",
+        "references": "",
+        "grade": 0,
+        "feedback": "",
+        "createdAt": "2026-05-24T13:25:52.236Z",
+        "updatedAt": "2026-05-24T13:25:52.548Z",
+        "submited_at": "2026-05-24T13:25:52.235Z"
+      }
+    },
+    {
+      "step": "relatorio.updateObjective",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/relatorios/80324620-a166-49fb-9c7c-73e6fa5ac307/objective",
+      "body": {
+        "objective": "obj"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "80324620-a166-49fb-9c7c-73e6fa5ac307",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "status": "RASCUNHO",
+        "introduction": "intro",
+        "objective": "obj",
+        "development": "",
+        "final_thoughts": "",
+        "references": "",
+        "grade": 0,
+        "feedback": "",
+        "createdAt": "2026-05-24T13:25:52.236Z",
+        "updatedAt": "2026-05-24T13:25:52.591Z",
+        "submited_at": "2026-05-24T13:25:52.235Z"
+      }
+    },
+    {
+      "step": "relatorio.updateDevelopment",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/relatorios/80324620-a166-49fb-9c7c-73e6fa5ac307/development",
+      "body": {
+        "development": "dev"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "80324620-a166-49fb-9c7c-73e6fa5ac307",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "status": "RASCUNHO",
+        "introduction": "intro",
+        "objective": "obj",
+        "development": "dev",
+        "final_thoughts": "",
+        "references": "",
+        "grade": 0,
+        "feedback": "",
+        "createdAt": "2026-05-24T13:25:52.236Z",
+        "updatedAt": "2026-05-24T13:25:52.668Z",
+        "submited_at": "2026-05-24T13:25:52.235Z"
+      }
+    },
+    {
+      "step": "relatorio.updateFinalThoughts",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/relatorios/80324620-a166-49fb-9c7c-73e6fa5ac307/final-thoughts",
+      "body": {
+        "final_thoughts": "fim"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "80324620-a166-49fb-9c7c-73e6fa5ac307",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "status": "RASCUNHO",
+        "introduction": "intro",
+        "objective": "obj",
+        "development": "dev",
+        "final_thoughts": "fim",
+        "references": "",
+        "grade": 0,
+        "feedback": "",
+        "createdAt": "2026-05-24T13:25:52.236Z",
+        "updatedAt": "2026-05-24T13:25:52.746Z",
+        "submited_at": "2026-05-24T13:25:52.235Z"
+      }
+    },
+    {
+      "step": "relatorio.updateReferences",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/relatorios/80324620-a166-49fb-9c7c-73e6fa5ac307/references",
+      "body": {
+        "references": "refs"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "80324620-a166-49fb-9c7c-73e6fa5ac307",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "status": "RASCUNHO",
+        "introduction": "intro",
+        "objective": "obj",
+        "development": "dev",
+        "final_thoughts": "fim",
+        "references": "refs",
+        "grade": 0,
+        "feedback": "",
+        "createdAt": "2026-05-24T13:25:52.236Z",
+        "updatedAt": "2026-05-24T13:25:52.824Z",
+        "submited_at": "2026-05-24T13:25:52.235Z"
+      }
+    },
+    {
+      "step": "relatorio.updateMulti",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/relatorios/80324620-a166-49fb-9c7c-73e6fa5ac307",
+      "body": {
+        "objective": "obj2"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "80324620-a166-49fb-9c7c-73e6fa5ac307",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "status": "RASCUNHO",
+        "introduction": "intro",
+        "objective": "obj2",
+        "development": "dev",
+        "final_thoughts": "fim",
+        "references": "refs",
+        "grade": 0,
+        "feedback": "",
+        "createdAt": "2026-05-24T13:25:52.236Z",
+        "updatedAt": "2026-05-24T13:25:52.901Z",
+        "submited_at": "2026-05-24T13:25:52.235Z"
+      }
+    },
+    {
+      "step": "relatorio.submit",
+      "method": "POST",
+      "url": "http://localhost:3000/api/relatorios/80324620-a166-49fb-9c7c-73e6fa5ac307/submit",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "80324620-a166-49fb-9c7c-73e6fa5ac307",
+        "user_id": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+        "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+        "list_id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+        "status": "SUBMETIDO",
+        "introduction": "intro",
+        "objective": "obj2",
+        "development": "dev",
+        "final_thoughts": "fim",
+        "references": "refs",
+        "grade": 0,
+        "feedback": "",
+        "createdAt": "2026-05-24T13:25:52.236Z",
+        "updatedAt": "2026-05-24T13:25:52.978Z",
+        "submited_at": "2026-05-24T13:25:52.977Z"
+      }
+    },
+    {
+      "step": "relatorio.exportPdf",
+      "method": "GET",
+      "url": "http://localhost:3000/api/relatorios/80324620-a166-49fb-9c7c-73e6fa5ac307/export-pdf",
+      "status": 200,
+      "ok": true,
+      "summary": "OK 1748B application/pdf",
+      "response": {
+        "contentType": "application/pdf",
+        "size": 1748,
+        "head": "%PDF-1.3"
+      }
+    },
+    {
+      "step": "turma.list",
+      "method": "GET",
+      "url": "http://localhost:3000/api/turmas",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": []
+    },
+    {
+      "step": "academicperiod.list",
+      "method": "GET",
+      "url": "http://localhost:3000/api/academic-periods",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": [
+        {
+          "id": "period-2026-2",
+          "name": "2026.2",
+          "semester": "SEGUNDO",
+          "start_date": "2026-08-01T00:00:00.000Z",
+          "end_date": "2026-12-15T23:59:59.000Z",
+          "createdAt": "2026-05-24T13:11:13.683Z",
+          "updatedAt": "2026-05-24T13:11:13.683Z"
+        },
+        {
+          "id": "period-2026-1",
+          "name": "2026.1",
+          "semester": "PRIMEIRO",
+          "start_date": "2026-02-01T00:00:00.000Z",
+          "end_date": "2026-07-15T23:59:59.000Z",
+          "createdAt": "2026-05-24T13:11:13.622Z",
+          "updatedAt": "2026-05-24T13:11:13.622Z"
+        }
+      ]
+    },
+    {
+      "step": "academicperiod.active",
+      "method": "GET",
+      "url": "http://localhost:3000/api/academic-periods/active",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "id": "period-2026-1",
+        "name": "2026.1",
+        "semester": "PRIMEIRO",
+        "start_date": "2026-02-01T00:00:00.000Z",
+        "end_date": "2026-07-15T23:59:59.000Z",
+        "createdAt": "2026-05-24T13:11:13.622Z",
+        "updatedAt": "2026-05-24T13:11:13.622Z"
+      }
+    },
+    {
+      "step": "alunoturma.byUser",
+      "method": "GET",
+      "url": "http://localhost:3000/api/aluno-turma/user/a36bdbe4-bb21-44df-83f5-360e45fd443c",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": []
+    },
+    {
+      "step": "aluno.resumo",
+      "method": "GET",
+      "url": "http://localhost:3000/api/alunos/a36bdbe4-bb21-44df-83f5-360e45fd443c/resumo",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "total_formularios": 1,
+          "total_semanas": 1,
+          "total_relatorios": 1
+        },
+        "error": null,
+        "message": "Resumo do aluno encontrado com sucesso"
+      }
+    },
+    {
+      "step": "aluno.home",
+      "method": "GET",
+      "url": "http://localhost:3000/api/alunos/a36bdbe4-bb21-44df-83f5-360e45fd443c/home",
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "data": {
+          "formularios_recentes": [
+            {
+              "id": "c861c153-ccd2-4dbe-994d-a75c7aadb4d6",
+              "type": "SEMANAL",
+              "synced": true,
+              "started_at": "2026-05-24T13:25:50.617Z",
+              "ended_at": "2026-05-24T13:25:51.894Z",
+              "createdAt": "2026-05-24T13:25:50.617Z",
+              "list": {
+                "id": "f8dcba37-bfd6-4162-b09f-1a005b050983",
+                "canteiro_id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+                "plant_id": "pf-037",
+                "created_by": "a36bdbe4-bb21-44df-83f5-360e45fd443c",
+                "name": "Lista Teste 1779629148282",
+                "createdAt": "2026-05-24T13:25:50.275Z",
+                "updatedAt": "2026-05-24T13:25:50.275Z",
+                "plant": {
+                  "id": "pf-037",
+                  "name": "Amendoim Forrageiro",
+                  "category": "LEGUMINOSA_HERBACEA"
+                }
+              }
+            }
+          ],
+          "canteiros": [
+            {
+              "id": "2107fe5b-9e52-4fd2-97e6-a677902f384c",
+              "plant_id": "pf-037",
+              "name": "Canteiro Teste 1779629148282",
+              "createdAt": "2026-05-24T13:25:49.222Z",
+              "updatedAt": "2026-05-24T13:25:49.222Z",
+              "plant": {
+                "id": "pf-037",
+                "name": "Amendoim Forrageiro",
+                "category": "LEGUMINOSA_HERBACEA"
+              },
+              "_count": {
+                "listaDeFormularios": 1
+              }
+            }
+          ],
+          "total_listas": 1,
+          "total_formularios": 1,
+          "total_semanas": 1,
+          "total_relatorios": 1
+        },
+        "error": null,
+        "message": "Home do aluno carregada com sucesso"
+      }
+    },
+    {
+      "step": "users.logout",
+      "method": "POST",
+      "url": "http://localhost:3000/api/users/logout",
+      "body": {
+        "refreshToken": "56aefee39ef574bc5915e67353422f2378219e52663259fe2944bf569c6d2fd9f0d9935d56f170bb"
+      },
+      "status": 200,
+      "ok": true,
+      "summary": "OK",
+      "response": {
+        "message": "Logout realizado com sucesso"
+      }
+    }
+  ]
+}

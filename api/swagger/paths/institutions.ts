@@ -1,3 +1,10 @@
+const institutionExample = {
+    id: "11111111-2222-3333-4444-555555555555",
+    name: "Universidade Católica de Pernambuco",
+    createdAt: "2026-04-22T08:00:00.000Z",
+    updatedAt: "2026-04-22T08:00:00.000Z",
+};
+
 export const institutionPaths = {
     "/institutions": {
         get: {
@@ -9,14 +16,7 @@ export const institutionPaths = {
                     description: "Lista",
                     content: {
                         "application/json": {
-                            example: [
-                                {
-                                    id: "11111111-2222-3333-4444-555555555555",
-                                    name: "Universidade Católica de Pernambuco",
-                                    createdAt: "2026-04-22T08:00:00.000Z",
-                                    updatedAt: "2026-04-22T08:00:00.000Z",
-                                },
-                            ],
+                            example: [institutionExample],
                         },
                     },
                 },
@@ -43,11 +43,131 @@ export const institutionPaths = {
                     description: "Criada",
                     content: {
                         "application/json": {
+                            example: { message: "created successfully" },
+                        },
+                    },
+                },
+                "400": {
+                    description: "Name ausente",
+                    content: {
+                        "application/json": {
+                            example: { error: "Name is required" },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    "/institutions/{id}": {
+        get: {
+            tags: ["Institutions"],
+            summary: "Buscar instituição por id (com contagem de users/turmas)",
+            parameters: [
+                { name: "id", in: "path", required: true, schema: { type: "string" } },
+            ],
+            responses: {
+                "200": {
+                    description: "Instituição",
+                    content: {
+                        "application/json": {
                             example: {
-                                id: "22222222-3333-4444-5555-666666666666",
-                                name: "Faculdade São Miguel",
-                                createdAt: "2026-05-29T12:00:00.000Z",
-                                updatedAt: "2026-05-29T12:00:00.000Z",
+                                ...institutionExample,
+                                _count: { users: 3, turmas: 2 },
+                            },
+                        },
+                    },
+                },
+                "404": {
+                    description: "Não encontrada",
+                    content: {
+                        "application/json": {
+                            example: { error: "Instituição não encontrada" },
+                        },
+                    },
+                },
+            },
+        },
+        put: {
+            tags: ["Institutions"],
+            summary: "Atualizar instituição",
+            parameters: [
+                { name: "id", in: "path", required: true, schema: { type: "string" } },
+            ],
+            requestBody: {
+                required: true,
+                content: {
+                    "application/json": {
+                        schema: {
+                            type: "object",
+                            required: ["name"],
+                            properties: { name: { type: "string" } },
+                        },
+                        example: { name: "Universidade Católica de Pernambuco (Unicap)" },
+                    },
+                },
+            },
+            responses: {
+                "200": {
+                    description: "Atualizada",
+                    content: {
+                        "application/json": {
+                            example: {
+                                ...institutionExample,
+                                name: "Universidade Católica de Pernambuco (Unicap)",
+                            },
+                        },
+                    },
+                },
+                "400": {
+                    description: "Validação",
+                    content: {
+                        "application/json": {
+                            example: { error: "name é obrigatório e deve ter pelo menos 2 caracteres" },
+                        },
+                    },
+                },
+                "404": {
+                    description: "Não encontrada",
+                    content: {
+                        "application/json": {
+                            example: { error: "Instituição não encontrada" },
+                        },
+                    },
+                },
+            },
+        },
+        delete: {
+            tags: ["Institutions"],
+            summary: "Remover instituição (bloqueado se houver users ou turmas vinculados)",
+            parameters: [
+                { name: "id", in: "path", required: true, schema: { type: "string" } },
+            ],
+            responses: {
+                "200": {
+                    description: "Removida",
+                    content: {
+                        "application/json": {
+                            example: {
+                                message: "Instituição removida com sucesso",
+                                data: institutionExample,
+                            },
+                        },
+                    },
+                },
+                "404": {
+                    description: "Não encontrada",
+                    content: {
+                        "application/json": {
+                            example: { error: "Instituição não encontrada" },
+                        },
+                    },
+                },
+                "409": {
+                    description: "Tem users ou turmas vinculados",
+                    content: {
+                        "application/json": {
+                            example: {
+                                error: "Não é possível excluir: instituição tem 3 usuário(s) e 2 turma(s) vinculados",
                             },
                         },
                     },

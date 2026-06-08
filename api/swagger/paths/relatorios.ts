@@ -173,6 +173,50 @@ export const relatorioPaths = {
                 },
             },
         },
+        delete: {
+            tags: ["Relatorios"],
+            summary: "Remover relatório (só o dono, só em RASCUNHO)",
+            parameters: [
+                { name: "id", in: "path", required: true, schema: { type: "string" } },
+            ],
+            responses: {
+                "200": {
+                    description: "Removido",
+                    content: {
+                        "application/json": {
+                            example: {
+                                message: "Relatório removido com sucesso",
+                                data: relatorioExample,
+                            },
+                        },
+                    },
+                },
+                "400": {
+                    description: "Relatório já submetido/corrigido",
+                    content: {
+                        "application/json": {
+                            example: { error: "Não é possível excluir um relatório já submetido ou corrigido" },
+                        },
+                    },
+                },
+                "403": {
+                    description: "Não é dono",
+                    content: {
+                        "application/json": {
+                            example: { error: "Você só pode alterar os próprios relatórios" },
+                        },
+                    },
+                },
+                "404": {
+                    description: "Não encontrado",
+                    content: {
+                        "application/json": {
+                            example: { error: "Relatório não encontrado" },
+                        },
+                    },
+                },
+            },
+        },
     },
     "/relatorios/{id}/objective": {
         put: {

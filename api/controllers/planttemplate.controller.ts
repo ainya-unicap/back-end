@@ -28,6 +28,24 @@ export class PlantTemplateController {
         }
     }
 
+    static async findById(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const template = await PlantTemplateService.findById(id);
+            return res.status(200).json({
+                data: template,
+                error: null,
+                message: "Template encontrado com sucesso",
+            });
+        } catch (err: HttpError | any) {
+            return res.status(err.status || 500).json({
+                data: null,
+                error: err.message,
+                message: "Erro ao buscar template",
+            });
+        }
+    }
+
     static async create(req: Request, res: Response) {
         try {
             const template = await PlantTemplateService.create(req.body);
@@ -44,6 +62,42 @@ export class PlantTemplateController {
                 data: null,
                 error: err.message,
                 message: "Erro ao criar template da planta",
+            });
+        }
+    }
+
+    static async update(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const template = await PlantTemplateService.update(id, req.body);
+            return res.status(200).json({
+                data: template,
+                error: null,
+                message: "Template atualizado com sucesso",
+            });
+        } catch (err: HttpError | any) {
+            return res.status(err.status || 500).json({
+                data: null,
+                error: err.message,
+                message: "Erro ao atualizar template",
+            });
+        }
+    }
+
+    static async delete(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const template = await PlantTemplateService.delete(id);
+            return res.status(200).json({
+                data: template,
+                error: null,
+                message: "Template removido com sucesso",
+            });
+        } catch (err: HttpError | any) {
+            return res.status(err.status || 500).json({
+                data: null,
+                error: err.message,
+                message: "Erro ao remover template",
             });
         }
     }

@@ -147,6 +147,39 @@ export const formularioPaths = {
                 },
             },
         },
+        delete: {
+            tags: ["Formularios"],
+            summary: "Remover formulário (só o dono; apaga checklist + measurements + photos em cascata)",
+            parameters: [
+                { name: "id", in: "path", required: true, schema: { type: "string" } },
+            ],
+            responses: {
+                "200": {
+                    description: "Removido",
+                    content: {
+                        "application/json": {
+                            example: envelope(formularioExample, "Formulário removido com sucesso"),
+                        },
+                    },
+                },
+                "403": {
+                    description: "Não é dono",
+                    content: {
+                        "application/json": {
+                            example: envelope(null, "Erro ao remover formulário"),
+                        },
+                    },
+                },
+                "404": {
+                    description: "Não encontrado",
+                    content: {
+                        "application/json": {
+                            example: envelope(null, "Erro ao remover formulário"),
+                        },
+                    },
+                },
+            },
+        },
     },
     "/formularios/{id}/checklist": {
         get: {
