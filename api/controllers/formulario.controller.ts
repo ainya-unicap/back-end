@@ -169,4 +169,23 @@ export class FormularioController {
             });
         }
     }
+
+    static async delete(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const formulario = await FormularioService.delete(id, req.user!.id);
+            return res.status(200).json({
+                data: formulario,
+                error: null,
+                message: "Formulário removido com sucesso",
+            });
+        } catch (err: HttpError | any) {
+            console.error("Error:", err);
+            return res.status(err.status || 500).json({
+                data: null,
+                error: err.message,
+                message: "Erro ao remover formulário",
+            });
+        }
+    }
 }

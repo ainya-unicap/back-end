@@ -102,6 +102,19 @@ export class RelatorioController {
         }
     }
 
+    static async delete(req: Request, res: Response) {
+        try {
+            const id = req.params.id as string;
+            const deleted = await RelatorioService.delete(id, req.user!.id);
+            return res.status(200).json({
+                message: "Relatório removido com sucesso",
+                data: deleted,
+            });
+        } catch (err: HttpError | any) {
+            return res.status(err.status || 500).json({ error: err.message });
+        }
+    }
+
     static async exportPdf(req: Request, res: Response) {
         try {
             const id = req.params.id as string;

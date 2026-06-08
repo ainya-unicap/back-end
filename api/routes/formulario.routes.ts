@@ -26,6 +26,7 @@ formularioRouter.post(
 
 formularioRouter.put("/:id", FormularioController.update);
 formularioRouter.patch("/:id", FormularioController.update);
+formularioRouter.delete("/:id", FormularioController.delete);
 formularioRouter.post("/:id/finalizar", FormularioController.finalizar);
 formularioRouter.patch("/:id/finalizar", FormularioController.finalizar);
 formularioRouter.post("/:id/sync", FormularioController.sync);

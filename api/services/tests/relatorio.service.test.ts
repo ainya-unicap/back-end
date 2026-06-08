@@ -13,6 +13,7 @@ jest.mock("../../../lib/prisma", () => ({
             findUnique: jest.fn(),
             create: jest.fn(),
             update: jest.fn(),
+            delete: jest.fn(),
         },
         listaDeFormularios: {
             findUnique: jest.fn(),
@@ -25,6 +26,7 @@ jest.mock("../usercanteiro.service", () => ({
         exists: jest.fn(),
     },
 }));
+
 
 const relMock = prisma.relatorio as jest.Mocked<typeof prisma.relatorio>;
 const listaMock = prisma.listaDeFormularios as jest.Mocked<typeof prisma.listaDeFormularios>;
@@ -322,6 +324,55 @@ describe("RelatorioService (kebab)", () => {
             await expect(RelatorioService.submit("", "user-1")).rejects.toMatchObject({
                 status: 400,
             });
+        });
+    });
+
+    // ──────────────────────────────────────────────
+    // delete (só dono + só em RASCUNHO)
+    // ──────────────────────────────────────────────
+    describe("delete", () => {
+        it("deve apagar quando dono e status RASCUNHO", async () => {
+            relMock.findUnique.mockResolvedValue(relatorioStub);
+            relMock.delete.mockResolvedValue(relatorioStub);
+
+            const result = await RelatorioService.delete("rel-1", "user-1");
+
+            expect(relMock.delete).toHaveBeenCalledWith({ where: { id: "rel-1" } });
+            expect(result).toEqual(relatorioStub);
+        });
+
+        it("deve lançar 403 quando não é dono", async () => {
+            relMock.findUnique.mockResolvedValue(relatorioStub);
+
+            await expect(
+                RelatorioService.delete("rel-1", "outro")
+            ).rejects.toMatchObject({ status: 403 });
+            expect(relMock.delete).not.toHaveBeenCalled();
+        });
+
+        it("deve lançar 400 quando relatório já está SUBMETIDO", async () => {
+            relMock.findUnique.mockResolvedValue({ ...relatorioStub, status: "SUBMETIDO" });
+
+            await expect(
+                RelatorioService.delete("rel-1", "user-1")
+            ).rejects.toMatchObject({ status: 400 });
+            expect(relMock.delete).not.toHaveBeenCalled();
+        });
+
+        it("deve lançar 400 quando relatório já está CORRIGIDO", async () => {
+            relMock.findUnique.mockResolvedValue({ ...relatorioStub, status: "CORRIGIDO" });
+
+            await expect(
+                RelatorioService.delete("rel-1", "user-1")
+            ).rejects.toMatchObject({ status: 400 });
+        });
+
+        it("deve lançar 404 quando relatório não existe", async () => {
+            relMock.findUnique.mockResolvedValue(null);
+
+            await expect(
+                RelatorioService.delete("nope", "user-1")
+            ).rejects.toMatchObject({ status: 404 });
         });
     });
 });
